@@ -35,10 +35,13 @@ test-suite spec
   type:                 exitcode-stdio-1.0
   other-modules:        Types.ServiceSpec
                       , Types.RoleSpec
+                      , Types.HostSpec
   build-depends:        base >= 4.7 && < 5.0
                       , mackerel-client
                       , aeson
                       , aeson-qq
+                      , unordered-containers
+                      , data-default
                       , hspec
 
 source-repository head

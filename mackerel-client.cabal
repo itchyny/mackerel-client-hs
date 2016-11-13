@@ -20,9 +20,14 @@ library
                       , Web.Mackerel.Types
                       , Web.Mackerel.Types.Service
                       , Web.Mackerel.Types.Role
+                      , Web.Mackerel.Types.Host
                       , Web.Mackerel.Internal.TH
   build-depends:        base >= 4.7 && < 5.0
                       , aeson
+                      , text
+                      , unordered-containers
+                      , data-default
+                      , split
 
 test-suite spec
   hs-source-dirs:       test

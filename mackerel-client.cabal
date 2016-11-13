@@ -18,6 +18,8 @@ library
   ghc-options:          -Werror -Wall
   exposed-modules:      Web.Mackerel
                       , Web.Mackerel.Types
+                      , Web.Mackerel.Types.Service
+                      , Web.Mackerel.Types.Role
                       , Web.Mackerel.Internal.TH
   build-depends:        base >= 4.7 && < 5.0
                       , aeson

@@ -1,0 +1,1 @@
+module Web.Mackerel.Types

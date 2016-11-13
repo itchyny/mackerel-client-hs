@@ -28,9 +28,12 @@ test-suite spec
   hs-source-dirs:       test
   main-is:              Spec.hs
   type:                 exitcode-stdio-1.0
+  other-modules:        Types.ServiceSpec
+                      , Types.RoleSpec
   build-depends:        base >= 4.7 && < 5.0
                       , mackerel-client
                       , aeson
+                      , aeson-qq
                       , hspec
 
 source-repository head

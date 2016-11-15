@@ -22,6 +22,9 @@ library
                       , Web.Mackerel.Types.Role
                       , Web.Mackerel.Types.Host
                       , Web.Mackerel.Api
+                      , Web.Mackerel.Api.Service
+                      , Web.Mackerel.Api.Role
+                      , Web.Mackerel.Api.Host
                       , Web.Mackerel.Client
   other-modules:        Web.Mackerel.Internal.TH
                       , Web.Mackerel.Internal.Api

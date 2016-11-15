@@ -1,14 +1,16 @@
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 module Web.Mackerel.Types.Host where
 
+import Control.Applicative ((<|>))
 import Data.Aeson
 import qualified Data.Aeson as Aeson
 import Data.Aeson.TH (deriveJSON, constructorTagModifier, fieldLabelModifier)
-import Data.Aeson.Types (typeMismatch)
+import Data.Aeson.Types (Parser, typeMismatch)
 import Data.Char (toLower)
 import Data.Default (Default(..))
 import qualified Data.HashMap.Lazy as HM
 import qualified Data.Text as Text
+
 import Web.Mackerel.Internal.TH
 
 data HostId = HostId String
@@ -27,9 +29,38 @@ data HostMetaCloud
     metaCloudMetadata :: HM.HashMap String Value
   } deriving (Eq, Show)
 
-$(deriveJSON options {
-  fieldLabelModifier = map toLower . drop (length "metaCloud")
-} ''HostMetaCloud)
+$(deriveJSON options { fieldLabelModifier = map toLower . drop 9 } ''HostMetaCloud)
+
+data HostMetaCpu
+  = HostMetaCpu {
+    metaCpuCacheSize :: Maybe String,
+    metaCpuCoreId :: Maybe String,
+    metaCpuCores :: Maybe String,
+    metaCpuFamily :: Maybe String,
+    metaCpuMhz :: Maybe String,
+    metaCpuModel :: Maybe String,
+    metaCpuModelName :: Maybe String,
+    metaCpuPhysicalId :: Maybe String,
+    metaCpuStepping :: Maybe String,
+    metaCpuVendorId :: Maybe String
+  } deriving (Eq, Show)
+
+instance FromJSON HostMetaCpu where
+  parseJSON (Object o)
+    = HostMetaCpu
+      <$> o .:? "cache_size" <*> o .:? "core_id" <*> o .:? "cores" <*> o .:? "family"
+      <*> (o .:? "mhz" <|> fmap show <$> (o .:? "mhz" :: Parser (Maybe Integer)))
+      <*> (o .:? "model" <|> fmap show <$> (o .:? "model" :: Parser (Maybe Integer)))
+      <*> o .:? "model_name" <*> o .:? "physical_id" <*> o .:? "stepping" <*> o .:? "vendor_id"
+  parseJSON o = typeMismatch "HostMetaCpu" o
+
+instance ToJSON HostMetaCpu where
+  toJSON (HostMetaCpu cacheSize coreId cores family mhz model modelName physicalId stepping vendorId)
+    = object [
+      "cache_size" .= cacheSize, "core_id" .= coreId, "cores" .= cores,
+      "family" .= family, "mhz" .= mhz, "model" .= model,
+      "model_name" .= modelName, "physical_id" .= physicalId, "stepping" .= stepping, "vendor_id" .= vendorId
+    ]
 
 data HostMeta
   = HostMeta {
@@ -37,7 +68,7 @@ data HostMeta
     metaAgentRevision :: Maybe String,
     metaAgentVersion :: Maybe String,
     metaBlockDevice :: Maybe (HM.HashMap String (HM.HashMap String String)),
-    metaCpu :: Maybe [HM.HashMap String String],
+    metaCpu :: Maybe [HostMetaCpu],
     metaFilesystem :: Maybe (HM.HashMap String (HM.HashMap String Value)),
     metaKernel :: Maybe (HM.HashMap String String),
     metaMemory :: Maybe (HM.HashMap String String),
@@ -58,9 +89,7 @@ data HostStatus = HostStatusWorking
                 | HostStatusPoweroff
                 deriving (Eq, Show)
 
-$(deriveJSON options {
-  constructorTagModifier = map toLower . drop (length "HostStatus")
-} ''HostStatus)
+$(deriveJSON options { constructorTagModifier = map toLower . drop 10 } ''HostStatus)
 
 data HostInterface
   = HostInterface {
@@ -70,9 +99,7 @@ data HostInterface
     hostInterfaceIpv6Addresses :: Maybe [String]
   } deriving (Eq, Show)
 
-$(deriveJSON options {
-  fieldLabelModifier = (\(c:cs) -> toLower c : cs) . drop (length "hostInterface")
-} ''HostInterface)
+$(deriveJSON options { fieldLabelModifier = (\(c:cs) -> toLower c : cs) . drop 13 } ''HostInterface)
 
 data Host
   = Host {

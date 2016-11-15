@@ -21,8 +21,15 @@ library
                       , Web.Mackerel.Types.Service
                       , Web.Mackerel.Types.Role
                       , Web.Mackerel.Types.Host
-                      , Web.Mackerel.Internal.TH
+                      , Web.Mackerel.Api
+                      , Web.Mackerel.Client
+  other-modules:        Web.Mackerel.Internal.TH
+                      , Web.Mackerel.Internal.Api
   build-depends:        base >= 4.7 && < 5.0
+                      , http-streams
+                      , io-streams
+                      , network-uri
+                      , bytestring
                       , aeson
                       , text
                       , unordered-containers

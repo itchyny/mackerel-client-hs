@@ -1,5 +1,5 @@
-module Web.Mackerel
-  ( module Web.Mackerel.Types
-  ) where
+module Web.Mackerel (module Mackerel) where
 
-import Web.Mackerel.Types
+import Web.Mackerel.Api as Mackerel
+import Web.Mackerel.Client as Mackerel
+import Web.Mackerel.Types as Mackerel

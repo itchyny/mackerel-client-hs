@@ -60,18 +60,18 @@ spec = do
             ])
           ],
           metaCpu = Just [
-            HM.fromList [
-              ("cache_size", "25600 KB"),
-              ("core_id", "0"),
-              ("cores", "1"),
-              ("family", "6"),
-              ("mhz", "2500.064"),
-              ("model", "62"),
-              ("model_name", "Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz"),
-              ("physical_id", "0"),
-              ("stepping", "4"),
-              ("vendor_id", "GenuineIntel")
-            ]
+            HostMetaCpu {
+              metaCpuCacheSize = Just "25600 KB",
+              metaCpuCoreId = Just "0",
+              metaCpuCores = Just "1",
+              metaCpuFamily = Just "6",
+              metaCpuMhz = Just "2500.064",
+              metaCpuModel = Just "62",
+              metaCpuModelName = Just "Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz",
+              metaCpuPhysicalId = Just "0",
+              metaCpuStepping = Just "4",
+              metaCpuVendorId = Just "GenuineIntel"
+            }
           ],
           metaFilesystem = Just $ HM.fromList [
             ("/dev/xvda", HM.fromList [

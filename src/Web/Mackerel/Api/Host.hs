@@ -3,6 +3,7 @@
 module Web.Mackerel.Api.Host
   ( getHost
   , listHosts
+  , listHostMetricNames
   ) where
 
 import Data.Aeson.TH (deriveJSON)
@@ -26,3 +27,10 @@ $(deriveJSON options ''ListHostsResponse)
 listHosts :: Client -> IO (Either ApiError [Host])
 listHosts client
   = request client GET "/api/v0/hosts" emptyBody (createHandler responseHosts)
+
+data ListMetricNamesResponse = ListMetricNamesResponse { responseNames :: [String] }
+$(deriveJSON options ''ListMetricNamesResponse)
+
+listHostMetricNames :: Client -> HostId -> IO (Either ApiError [String])
+listHostMetricNames client (HostId hostId')
+  = request client GET ("/api/v0/hosts/" ++ hostId' ++ "/metric-names") emptyBody (createHandler responseNames)

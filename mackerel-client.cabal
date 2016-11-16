@@ -23,6 +23,7 @@ library
                       , Web.Mackerel.Types.Role
                       , Web.Mackerel.Types.Host
                       , Web.Mackerel.Api
+                      , Web.Mackerel.Api.Organization
                       , Web.Mackerel.Api.Service
                       , Web.Mackerel.Api.Role
                       , Web.Mackerel.Api.Host

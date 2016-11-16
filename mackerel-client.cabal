@@ -18,6 +18,7 @@ library
   ghc-options:          -Werror -Wall
   exposed-modules:      Web.Mackerel
                       , Web.Mackerel.Types
+                      , Web.Mackerel.Types.Organization
                       , Web.Mackerel.Types.Service
                       , Web.Mackerel.Types.Role
                       , Web.Mackerel.Types.Host

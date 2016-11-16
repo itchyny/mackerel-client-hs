@@ -19,6 +19,7 @@ library
   exposed-modules:      Web.Mackerel
                       , Web.Mackerel.Types
                       , Web.Mackerel.Types.Organization
+                      , Web.Mackerel.Types.User
                       , Web.Mackerel.Types.Service
                       , Web.Mackerel.Types.Role
                       , Web.Mackerel.Types.Host

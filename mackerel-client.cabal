@@ -37,6 +37,7 @@ library
   build-depends:        base >= 4.7 && < 5.0
                       , http-streams
                       , io-streams
+                      , http-types
                       , network-uri
                       , bytestring
                       , aeson

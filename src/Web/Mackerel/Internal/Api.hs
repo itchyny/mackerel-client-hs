@@ -11,6 +11,7 @@ import qualified Data.ByteString.Char8 as BSChar8
 import Data.Maybe (fromJust, fromMaybe)
 import Data.Semigroup ((<>))
 import Network.Http.Client
+import Network.HTTP.Types (Query, renderQuery)
 import Network.URI (uriAuthority, uriScheme, URIAuth(..))
 import System.IO.Streams (InputStream, OutputStream)
 
@@ -21,8 +22,8 @@ type ResponseHandler a = Response -> InputStream BS.ByteString -> IO (Either Api
 data ApiError = ApiError { statusCode :: Int, errorMessage :: String } deriving (Eq, Show)
 
 -- | Request to Mackerel.
-request :: Client -> Method -> String -> (OutputStream Builder -> IO ()) -> ResponseHandler a -> IO (Either ApiError a)
-request client method path body handler = do
+request :: Client -> Method -> String -> Query -> (OutputStream Builder -> IO ()) -> ResponseHandler a -> IO (Either ApiError a)
+request client method path query body handler = do
   let uri = apiBase client
   let uriAuth = fromJust $ uriAuthority uri
   let port | not $ null $ drop 1 $ uriPort uriAuth = read $ drop 1 $ uriPort uriAuth
@@ -33,7 +34,7 @@ request client method path body handler = do
             then baselineContextSSL >>= \sslCtx -> openConnectionSSL sslCtx hostname port
             else openConnection hostname port
   let req = buildRequest1 $ do
-        http method (BSChar8.pack path)
+        http method (BSChar8.pack path <> renderQuery True query)
         setHeader "X-Api-Key" (BSChar8.pack $ apiKey client)
         setHeader "User-Agent" (BSChar8.pack $ userAgent client)
         setHeader "Content-Type" "application/json"

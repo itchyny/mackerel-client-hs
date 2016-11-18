@@ -15,8 +15,8 @@ $(deriveJSON options ''ListUsersResponse)
 
 listUsers :: Client -> IO (Either ApiError [User])
 listUsers client
-  = request client GET "/api/v0/users" emptyBody (createHandler responseUsers)
+  = request client GET "/api/v0/users" [] emptyBody (createHandler responseUsers)
 
 deleteUser :: Client -> String -> IO (Either ApiError User)
 deleteUser client userId'
-  = request client DELETE ("/api/v0/users/" ++ userId') emptyBody (createHandler id)
+  = request client DELETE ("/api/v0/users/" ++ userId') [] emptyBody (createHandler id)

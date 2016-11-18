@@ -18,9 +18,9 @@ $(deriveJSON options ''ListAlertsResponse)
 
 listAlerts :: Client -> IO (Either ApiError [Alert])
 listAlerts client
-  = request client GET "/api/v0/alerts" emptyBody (createHandler responseAlerts)
+  = request client GET "/api/v0/alerts" [] emptyBody (createHandler responseAlerts)
 
 closeAlert :: Client -> AlertId -> String -> IO (Either ApiError Alert)
 closeAlert client (AlertId alertId') reason = do
   body <- inputStreamBody <$> fromLazyByteString (encode (HM.fromList [("reason", reason)]))
-  request client POST ("/api/v0/alerts/" ++ alertId' ++ "/close") body (createHandler id)
+  request client POST ("/api/v0/alerts/" ++ alertId' ++ "/close") [] body (createHandler id)

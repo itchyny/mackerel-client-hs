@@ -4,11 +4,12 @@ module Types.AlertSpec where
 import Control.Monad (forM_)
 import Data.Aeson (decode, encode, Value(..))
 import Data.Aeson.QQ
-import Data.Default
 import qualified Data.HashMap.Lazy as HM
 import Test.Hspec
 
-import Web.Mackerel.Types
+import Web.Mackerel.Types.Alert
+import Web.Mackerel.Types.Host
+import Web.Mackerel.Types.Monitor
 
 spec :: Spec
 spec = do

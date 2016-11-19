@@ -1,10 +1,8 @@
 {-# LANGUAGE OverloadedStrings, QuasiQuotes #-}
 module Types.OrganizationSpec where
 
-import Control.Monad (forM_)
-import Data.Aeson (decode, encode, Value(..))
+import Data.Aeson (decode, encode)
 import Data.Aeson.QQ
-import qualified Data.HashMap.Lazy as HM
 import Test.Hspec
 
 import Web.Mackerel.Types.Organization

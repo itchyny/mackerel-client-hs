@@ -8,7 +8,7 @@ import Data.Default
 import qualified Data.HashMap.Lazy as HM
 import Test.Hspec
 
-import Web.Mackerel.Types
+import Web.Mackerel.Types.Host
 
 spec :: Spec
 spec = do

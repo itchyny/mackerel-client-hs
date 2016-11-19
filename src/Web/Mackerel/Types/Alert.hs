@@ -9,7 +9,8 @@ import Data.Char (toLower, toUpper)
 import qualified Data.Text as Text
 
 import Web.Mackerel.Internal.TH
-import Web.Mackerel.Types.Host
+import Web.Mackerel.Types.Host (HostId)
+import Web.Mackerel.Types.Monitor (MonitorId)
 
 data AlertId = AlertId String
             deriving (Eq, Show)
@@ -43,7 +44,7 @@ data Alert
   = Alert {
     alertId :: AlertId,
     alertStatus :: AlertStatus,
-    alertMonitorId :: Maybe String,
+    alertMonitorId :: Maybe MonitorId,
     alertType :: AlertType,
     alertHostId :: Maybe HostId,
     alertValue :: Maybe Double,

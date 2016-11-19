@@ -87,7 +87,17 @@ data HostStatus = HostStatusWorking
                 | HostStatusStandby
                 | HostStatusMaintenance
                 | HostStatusPoweroff
-                deriving (Eq, Show)
+                deriving Eq
+
+instance Show HostStatus where
+  show HostStatusWorking = "working"
+  show HostStatusStandby = "standby"
+  show HostStatusMaintenance = "maintenance"
+  show HostStatusPoweroff = "poweroff"
+
+instance Read HostStatus where
+  readsPrec _ xs = [ (hs, drop (length str) xs) | (hs, str) <- pairs', take (length str) xs == str ]
+    where pairs' = [(HostStatusWorking, "working"), (HostStatusStandby, "standby"), (HostStatusMaintenance, "maintenance"), (HostStatusPoweroff, "poweroff")]
 
 $(deriveJSON options { constructorTagModifier = map toLower . drop 10 } ''HostStatus)
 

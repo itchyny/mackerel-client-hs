@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 -- | Service API.
 module Web.Mackerel.Api.Service
   ( listServices
@@ -6,7 +6,7 @@ module Web.Mackerel.Api.Service
   ) where
 
 import Data.Aeson.TH (deriveJSON)
-import Network.Http.Client
+import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client
 import Web.Mackerel.Internal.Api
@@ -18,11 +18,11 @@ $(deriveJSON options ''ListServicesResponse)
 
 listServices :: Client -> IO (Either ApiError [Service])
 listServices client
-  = request client GET "/api/v0/services" [] emptyBody (createHandler responseServices)
+  = request client GET "/api/v0/services" [] "" (createHandler responseServices)
 
 data ListMetricNamesResponse = ListMetricNamesResponse { responseNames :: [String] }
 $(deriveJSON options ''ListMetricNamesResponse)
 
 listServiceMetricNames :: Client -> String -> IO (Either ApiError [String])
 listServiceMetricNames client serviceName'
-  = request client GET ("/api/v0/services/" ++ serviceName' ++ "/metric-names") [] emptyBody (createHandler responseNames)
+  = request client GET ("/api/v0/services/" ++ serviceName' ++ "/metric-names") [] "" (createHandler responseNames)

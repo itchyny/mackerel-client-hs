@@ -11,7 +11,7 @@ import Data.Aeson.TH (deriveJSON)
 import qualified Data.ByteString.Char8 as BS
 import Data.Default (Default(..))
 import Data.Maybe (maybeToList)
-import Network.Http.Client
+import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client
 import Web.Mackerel.Internal.Api
@@ -23,7 +23,7 @@ $(deriveJSON options ''GetHostResponse)
 
 getHost :: Client -> HostId -> IO (Either ApiError Host)
 getHost client (HostId hostId')
-  = request client GET ("/api/v0/hosts/" ++ hostId') [] emptyBody (createHandler responseHost)
+  = request client GET ("/api/v0/hosts/" ++ hostId') [] "" (createHandler responseHost)
 
 data ListHostsParams
   = ListHostsParams {
@@ -45,11 +45,11 @@ listHosts client params = do
               [ ("role", Just $ BS.pack r) | r <- listHostsParamsRoles params ] ++
               [ ("name", Just $ BS.pack r) | r <- listHostsParamsName params ] ++
               [ ("status", Just $ BS.pack $ show s) | s <- listHostsParamsStatus params ]
-  request client GET "/api/v0/hosts" query emptyBody (createHandler responseHosts)
+  request client GET "/api/v0/hosts" query "" (createHandler responseHosts)
 
 data ListMetricNamesResponse = ListMetricNamesResponse { responseNames :: [String] }
 $(deriveJSON options ''ListMetricNamesResponse)
 
 listHostMetricNames :: Client -> HostId -> IO (Either ApiError [String])
 listHostMetricNames client (HostId hostId')
-  = request client GET ("/api/v0/hosts/" ++ hostId' ++ "/metric-names") [] emptyBody (createHandler responseNames)
+  = request client GET ("/api/v0/hosts/" ++ hostId' ++ "/metric-names") [] "" (createHandler responseNames)

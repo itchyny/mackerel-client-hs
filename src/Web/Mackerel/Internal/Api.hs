@@ -6,14 +6,15 @@ import Control.Monad ((>=>), guard)
 import Data.Aeson ((.:), FromJSON(..))
 import Data.Aeson.Types (parseMaybe)
 import qualified Data.ByteString as BS
-import Data.ByteString.Builder (Builder)
 import qualified Data.ByteString.Char8 as BSChar8
+import qualified Data.ByteString.Lazy as LBS
 import Data.Maybe (fromJust, fromMaybe)
 import Data.Semigroup ((<>))
 import Network.Http.Client
-import Network.HTTP.Types (Query, renderQuery)
+import Network.HTTP.Types (StdMethod, Query, renderQuery)
 import Network.URI (uriAuthority, uriScheme, URIAuth(..))
-import System.IO.Streams (InputStream, OutputStream)
+import System.IO.Streams (InputStream)
+import System.IO.Streams.ByteString (fromLazyByteString)
 
 import Web.Mackerel.Client
 
@@ -22,7 +23,7 @@ type ResponseHandler a = Response -> InputStream BS.ByteString -> IO (Either Api
 data ApiError = ApiError { statusCode :: Int, errorMessage :: String } deriving (Eq, Show)
 
 -- | Request to Mackerel.
-request :: Client -> Method -> String -> Query -> (OutputStream Builder -> IO ()) -> ResponseHandler a -> IO (Either ApiError a)
+request :: Client -> StdMethod -> String -> Query -> LBS.ByteString -> ResponseHandler a -> IO (Either ApiError a)
 request client method path query body handler = do
   let uri = apiBase client
   let uriAuth = fromJust $ uriAuthority uri
@@ -34,7 +35,7 @@ request client method path query body handler = do
             then baselineContextSSL >>= \sslCtx -> openConnectionSSL sslCtx hostname port
             else openConnection hostname port
   let req = buildRequest1 $ do
-        http method (BSChar8.pack path <> renderQuery True query)
+        http (read $ show method) (BSChar8.pack path <> renderQuery True query)
         setHeader "X-Api-Key" (BSChar8.pack $ apiKey client)
         setHeader "User-Agent" (BSChar8.pack $ userAgent client)
         setHeader "Content-Type" "application/json"
@@ -43,7 +44,8 @@ request client method path query body handler = do
           guard $ not (null info) && last info == '@'
           let (user, pass') = break (==':') (init info)
           Just (BSChar8.pack user, BSChar8.pack (tail pass'))
-  sendRequest ctx req body
+  body' <- inputStreamBody <$> fromLazyByteString body
+  sendRequest ctx req body'
   res <- receiveResponse ctx handler
   closeConnection ctx
   return res

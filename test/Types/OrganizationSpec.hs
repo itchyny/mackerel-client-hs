@@ -26,7 +26,7 @@ spec = do
     it "should parse a json" $
       decode (encode json) `shouldBe` Just organization
 
-    it "should reject an invalid json" $ do
+    it "should reject an invalid json" $
       decode "{}" `shouldBe` (Nothing :: Maybe Organization)
 
   describe "Organization ToJSON" $

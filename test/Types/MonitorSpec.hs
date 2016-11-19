@@ -162,13 +162,13 @@ spec = do
           (expressionMonitor, expressionMonitorJson)
         ]
 
-  describe "Monitor FromJSON" $ do
+  describe "Monitor FromJSON" $
     it "should parse jsons" $ do
       forM_ monitors $ \(monitor, json) ->
         decode (encode json) `shouldBe` Just monitor
       decode (encode (map snd monitors)) `shouldBe` Just (map fst monitors)
 
-  describe "Monitor ToJSON" $ do
+  describe "Monitor ToJSON" $
     it "should encode into jsons" $ do
       forM_ monitors $ \(monitor, json) ->
         decode (encode monitor) `shouldBe` Just json

@@ -54,6 +54,7 @@ test-suite spec
   hs-source-dirs:       test
   main-is:              Spec.hs
   type:                 exitcode-stdio-1.0
+  ghc-options:          -Werror -Wall
   other-modules:        Types.OrganizationSpec
                       , Types.ServiceSpec
                       , Types.RoleSpec

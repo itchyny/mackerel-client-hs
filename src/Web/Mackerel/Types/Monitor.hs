@@ -48,6 +48,16 @@ data MonitorExternalHeader
 
 $(deriveJSON options { fieldLabelModifier = map toLower . drop 13 } ''MonitorExternalHeader)
 
+data MonitorType = MonitorTypeConnectivity
+                 | MonitorTypeHost
+                 | MonitorTypeService
+                 | MonitorTypeExternal
+                 | MonitorTypeCheck
+                 | MonitorTypeExpression
+                 deriving (Eq, Show)
+
+$(deriveJSON options { constructorTagModifier = map toLower . drop 11 } ''MonitorType)
+
 data Monitor
   = MonitorHost {
     monitorId :: Maybe MonitorId,

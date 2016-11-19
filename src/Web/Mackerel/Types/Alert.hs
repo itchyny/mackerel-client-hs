@@ -5,12 +5,12 @@ import Data.Aeson
 import qualified Data.Aeson as Aeson
 import Data.Aeson.TH (deriveJSON, constructorTagModifier)
 import Data.Aeson.Types (typeMismatch)
-import Data.Char (toLower, toUpper)
+import Data.Char (toUpper)
 import qualified Data.Text as Text
 
 import Web.Mackerel.Internal.TH
 import Web.Mackerel.Types.Host (HostId)
-import Web.Mackerel.Types.Monitor (MonitorId)
+import Web.Mackerel.Types.Monitor (MonitorId, MonitorType)
 
 data AlertId = AlertId String
             deriving (Eq, Show)
@@ -30,22 +30,12 @@ data AlertStatus = AlertStatusOk
 
 $(deriveJSON options { constructorTagModifier = map toUpper . drop 11 } ''AlertStatus)
 
-data AlertType = AlertTypeConnectivity
-               | AlertTypeHost
-               | AlertTypeService
-               | AlertTypeExternal
-               | AlertTypeCheck
-               | AlertTypeExpression
-               deriving (Eq, Show)
-
-$(deriveJSON options { constructorTagModifier = map toLower . drop 9 } ''AlertType)
-
 data Alert
   = Alert {
     alertId :: AlertId,
     alertStatus :: AlertStatus,
     alertMonitorId :: Maybe MonitorId,
-    alertType :: AlertType,
+    alertType :: MonitorType,
     alertHostId :: Maybe HostId,
     alertValue :: Maybe Double,
     alertMessage :: Maybe String,

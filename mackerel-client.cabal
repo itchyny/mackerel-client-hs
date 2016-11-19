@@ -59,6 +59,7 @@ test-suite spec
                       , Types.HostSpec
                       , Types.MonitorSpec
                       , Types.AlertSpec
+                      , Types.DashboardSpec
   build-depends:        base >= 4.7 && < 5.0
                       , mackerel-client
                       , aeson

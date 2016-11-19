@@ -220,3 +220,15 @@ spec = do
     it "should encode into a json" $
       forM_ [(json1, host1), (json2, host2)] $ \(json, host) ->
         decode (encode host) `shouldBe` Just json
+
+  describe "HostStatus Show" $
+    it "should show properly" $ do
+      show HostStatusWorking `shouldBe` "working"
+      show HostStatusMaintenance `shouldBe` "maintenance"
+      show [HostStatusWorking, HostStatusStandby, HostStatusMaintenance, HostStatusPoweroff] `shouldBe` "[working,standby,maintenance,poweroff]"
+
+  describe "HostStatus Read" $
+    it "should read properly" $ do
+      read "working" `shouldBe` HostStatusWorking
+      read "maintenance" `shouldBe` HostStatusMaintenance
+      read "[working,standby,maintenance,poweroff]" `shouldBe` [HostStatusWorking, HostStatusStandby, HostStatusMaintenance, HostStatusPoweroff]

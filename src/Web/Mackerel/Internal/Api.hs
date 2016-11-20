@@ -2,60 +2,46 @@
 -- | Internal helpers for APIs.
 module Web.Mackerel.Internal.Api (request, createHandler, ApiError(..)) where
 
-import Control.Monad ((>=>), guard)
-import Data.Aeson ((.:), FromJSON(..))
+import Control.Monad ((>=>))
+import Data.Aeson (decode, (.:), FromJSON(..))
 import Data.Aeson.Types (parseMaybe)
-import qualified Data.ByteString as BS
-import qualified Data.ByteString.Char8 as BSChar8
+import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy as LBS
-import Data.Maybe (fromJust, fromMaybe)
+import Data.Maybe (maybe, fromMaybe)
 import Data.Semigroup ((<>))
-import Network.Http.Client
-import Network.HTTP.Types (StdMethod, Query, renderQuery)
-import Network.URI (uriAuthority, uriScheme, URIAuth(..))
-import System.IO.Streams (InputStream)
-import System.IO.Streams.ByteString (fromLazyByteString)
+import Network.HTTP.Client
+import Network.HTTP.Client.TLS (tlsManagerSettings)
+import Network.HTTP.Types (StdMethod, renderStdMethod, Query, statusCode)
 
 import Web.Mackerel.Client
 
-type ResponseHandler a = Response -> InputStream BS.ByteString -> IO (Either ApiError a)
+type ResponseHandler a = Response LBS.ByteString -> Either ApiError a
 
-data ApiError = ApiError { statusCode :: Int, errorMessage :: String } deriving (Eq, Show)
+data ApiError = ApiError { errorStatusCode :: Int, errorMessage :: String } deriving (Eq, Show)
 
 -- | Request to Mackerel.
-request :: Client -> StdMethod -> String -> Query -> LBS.ByteString -> ResponseHandler a -> IO (Either ApiError a)
-request client method path query body handler = do
-  let uri = apiBase client
-  let uriAuth = fromJust $ uriAuthority uri
-  let port | not $ null $ drop 1 $ uriPort uriAuth = read $ drop 1 $ uriPort uriAuth
-           | uriScheme uri == "https:" = 443
-           | otherwise = 80
-  let hostname = BSChar8.pack (uriRegName uriAuth)
-  ctx <- if port == 443
-            then baselineContextSSL >>= \sslCtx -> openConnectionSSL sslCtx hostname port
-            else openConnection hostname port
-  let req = buildRequest1 $ do
-        http (read $ show method) (BSChar8.pack path <> renderQuery True query)
-        setHeader "X-Api-Key" (BSChar8.pack $ apiKey client)
-        setHeader "User-Agent" (BSChar8.pack $ userAgent client)
-        setHeader "Content-Type" "application/json"
-        mapM_ (uncurry setAuthorizationBasic) $ do
-          let info = uriUserInfo uriAuth
-          guard $ not (null info) && last info == '@'
-          let (user, pass') = break (==':') (init info)
-          Just (BSChar8.pack user, BSChar8.pack (tail pass'))
-  body' <- inputStreamBody <$> fromLazyByteString body
-  sendRequest ctx req body'
-  res <- receiveResponse ctx handler
-  closeConnection ctx
-  return res
+request :: Client -> StdMethod -> BS.ByteString -> Query -> LBS.ByteString -> ResponseHandler a -> IO (Either ApiError a)
+request client method' path' query body handler = do
+  initialRequest <- setQueryString query <$> parseRequest (apiBase client)
+  handler <$> (httpLbs initialRequest {
+    method = renderStdMethod method', path = path', requestBody = RequestBodyLBS body,
+    requestHeaders = requestHeaders initialRequest ++ [
+      ("X-Api-Key", BS.pack $ apiKey client),
+      ("User-Agent", BS.pack $ userAgent client),
+      ("Content-Type", "application/json")
+    ]
+  } =<< newManager (if secure initialRequest then tlsManagerSettings else defaultManagerSettings))
 
 -- | Create an api response handler.
 createHandler :: FromJSON a => (a -> b) -> ResponseHandler b
-createHandler extractor response input
-  | getStatusCode response == 200 = Right . extractor <$> jsonHandler response input
-  | otherwise = Left . getApiError <$> jsonHandler response input
+createHandler extractor response
+  | statusCode (responseStatus response) == 200 = maybe (Left decodeError) (Right . extractor) (decode (responseBody response))
+  | otherwise = maybe (Left decodeError) (Left . getApiError) (decode (responseBody response))
   where getApiError json = ApiError {
-          statusCode = getStatusCode response,
+          errorStatusCode = statusCode $ responseStatus response,
           errorMessage = fromMaybe "" $ parseMaybe (((.: "error") >=> (.: "message")) <> (.: "error")) json
+        }
+        decodeError = ApiError {
+          errorStatusCode = statusCode $ responseStatus response,
+          errorMessage = show $ responseBody response
         }

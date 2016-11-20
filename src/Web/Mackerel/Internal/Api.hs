@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | Internal helpers for APIs.
-module Web.Mackerel.Internal.Api (request, emptyBody, createHandler, ApiError(..)) where
+module Web.Mackerel.Internal.Api (request, emptyBody, createHandler, ApiError, errorStatusCode, errorMessage) where
 
 import Control.Monad ((>=>))
 import Data.Aeson (encode, decode, (.:), FromJSON, ToJSON)
@@ -17,6 +17,7 @@ import Web.Mackerel.Client
 
 type ResponseHandler a = Response LBS.ByteString -> Either ApiError a
 
+-- | Error information of the response of API.
 data ApiError = ApiError { errorStatusCode :: Int, errorMessage :: String } deriving (Eq, Show)
 
 -- | Request to Mackerel.

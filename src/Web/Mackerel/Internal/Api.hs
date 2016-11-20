@@ -40,7 +40,7 @@ emptyBody = Nothing
 createHandler :: FromJSON a => (a -> b) -> ResponseHandler b
 createHandler extractor response
   | statusCode (responseStatus response) == 200 = maybe (Left decodeError) (Right . extractor) (decode (responseBody response))
-  | otherwise = maybe (Left decodeError) (Left . getApiError) (decode (responseBody response))
+  | otherwise = Left $ maybe decodeError getApiError $ decode (responseBody response)
   where getApiError json = ApiError {
           errorStatusCode = statusCode $ responseStatus response,
           errorMessage = fromMaybe "" $ parseMaybe (((.: "error") >=> (.: "message")) <> (.: "error")) json

@@ -10,6 +10,8 @@ module Web.Mackerel.Api.Dashboard
 
 import Data.Aeson (encode)
 import Data.Aeson.TH (deriveJSON)
+import qualified Data.ByteString.Char8 as BS
+import Data.Semigroup ((<>))
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client
@@ -26,7 +28,7 @@ listDashboards client
 
 getDashboard :: Client -> DashboardId -> IO (Either ApiError Dashboard)
 getDashboard client (DashboardId dashboardId')
-  = request client GET ("/api/v0/dashboards/" ++ dashboardId') [] "" (createHandler id)
+  = request client GET ("/api/v0/dashboards/" <> BS.pack dashboardId') [] "" (createHandler id)
 
 createDashboard :: Client -> DashboardCreate -> IO (Either ApiError Dashboard)
 createDashboard client dashboard
@@ -35,8 +37,8 @@ createDashboard client dashboard
 updateDashboard :: Client -> Dashboard -> IO (Either ApiError Dashboard)
 updateDashboard client dashboard = do
   let (DashboardId dashboardId') = dashboardId dashboard
-  request client PUT ("/api/v0/dashboards/" ++ dashboardId') [] (encode dashboard) (createHandler id)
+  request client PUT ("/api/v0/dashboards/" <> BS.pack dashboardId') [] (encode dashboard) (createHandler id)
 
 deleteDashboard :: Client -> DashboardId -> IO (Either ApiError Dashboard)
 deleteDashboard client (DashboardId dashboardId')
-  = request client DELETE ("/api/v0/dashboards/" ++ dashboardId') [] "" (createHandler id)
+  = request client DELETE ("/api/v0/dashboards/" <> BS.pack dashboardId') [] "" (createHandler id)

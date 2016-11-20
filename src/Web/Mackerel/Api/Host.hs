@@ -11,6 +11,7 @@ import Data.Aeson.TH (deriveJSON)
 import qualified Data.ByteString.Char8 as BS
 import Data.Default (Default(..))
 import Data.Maybe (maybeToList)
+import Data.Semigroup ((<>))
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client
@@ -23,7 +24,7 @@ $(deriveJSON options ''GetHostResponse)
 
 getHost :: Client -> HostId -> IO (Either ApiError Host)
 getHost client (HostId hostId')
-  = request client GET ("/api/v0/hosts/" ++ hostId') [] "" (createHandler responseHost)
+  = request client GET ("/api/v0/hosts/" <> BS.pack hostId') [] "" (createHandler responseHost)
 
 data ListHostsParams
   = ListHostsParams {
@@ -52,4 +53,4 @@ $(deriveJSON options ''ListMetricNamesResponse)
 
 listHostMetricNames :: Client -> HostId -> IO (Either ApiError [String])
 listHostMetricNames client (HostId hostId')
-  = request client GET ("/api/v0/hosts/" ++ hostId' ++ "/metric-names") [] "" (createHandler responseNames)
+  = request client GET ("/api/v0/hosts/" <> BS.pack hostId' <> "/metric-names") [] "" (createHandler responseNames)

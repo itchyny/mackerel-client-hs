@@ -6,6 +6,8 @@ module Web.Mackerel.Api.Service
   ) where
 
 import Data.Aeson.TH (deriveJSON)
+import qualified Data.ByteString.Char8 as BS
+import Data.Semigroup ((<>))
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client
@@ -25,4 +27,4 @@ $(deriveJSON options ''ListMetricNamesResponse)
 
 listServiceMetricNames :: Client -> String -> IO (Either ApiError [String])
 listServiceMetricNames client serviceName'
-  = request client GET ("/api/v0/services/" ++ serviceName' ++ "/metric-names") [] "" (createHandler responseNames)
+  = request client GET ("/api/v0/services/" <> BS.pack serviceName' <> "/metric-names") [] "" (createHandler responseNames)

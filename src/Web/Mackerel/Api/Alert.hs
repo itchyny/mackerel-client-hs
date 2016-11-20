@@ -4,7 +4,9 @@ module Web.Mackerel.Api.Alert (listAlerts, closeAlert) where
 
 import Data.Aeson (encode)
 import Data.Aeson.TH (deriveJSON)
+import qualified Data.ByteString.Char8 as BS
 import qualified Data.HashMap.Lazy as HM
+import Data.Semigroup ((<>))
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client
@@ -22,4 +24,4 @@ listAlerts client
 closeAlert :: Client -> AlertId -> String -> IO (Either ApiError Alert)
 closeAlert client (AlertId alertId') reason = do
   let body = encode $ HM.fromList [("reason", reason) :: (String, String)]
-  request client POST ("/api/v0/alerts/" ++ alertId' ++ "/close") [] body (createHandler id)
+  request client POST ("/api/v0/alerts/" <> BS.pack alertId' <> "/close") [] body (createHandler id)

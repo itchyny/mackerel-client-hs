@@ -9,4 +9,4 @@ import Web.Mackerel.Internal.Api
 import Web.Mackerel.Types.Organization
 
 getOrganization :: Client -> IO (Either ApiError Organization)
-getOrganization client = request client GET "/api/v0/org" [] "" (createHandler id)
+getOrganization client = request client GET "/api/v0/org" [] emptyBody (createHandler id)

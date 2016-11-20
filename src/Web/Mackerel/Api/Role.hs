@@ -17,4 +17,4 @@ $(deriveJSON options ''ListRolesResponse)
 
 listRoles :: Client -> String -> IO (Either ApiError [Role])
 listRoles client serviceName'
-  = request client GET ("/api/v0/services/" <> BS.pack serviceName' <> "/roles") [] "" (createHandler responseRoles)
+  = request client GET ("/api/v0/services/" <> BS.pack serviceName' <> "/roles") [] emptyBody (createHandler responseRoles)

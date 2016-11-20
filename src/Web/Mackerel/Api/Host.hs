@@ -24,7 +24,7 @@ $(deriveJSON options ''GetHostResponse)
 
 getHost :: Client -> HostId -> IO (Either ApiError Host)
 getHost client (HostId hostId')
-  = request client GET ("/api/v0/hosts/" <> BS.pack hostId') [] "" (createHandler responseHost)
+  = request client GET ("/api/v0/hosts/" <> BS.pack hostId') [] emptyBody (createHandler responseHost)
 
 data ListHostsParams
   = ListHostsParams {
@@ -46,11 +46,11 @@ listHosts client params = do
               [ ("role", Just $ BS.pack r) | r <- listHostsParamsRoles params ] ++
               [ ("name", Just $ BS.pack r) | r <- listHostsParamsName params ] ++
               [ ("status", Just $ BS.pack $ show s) | s <- listHostsParamsStatus params ]
-  request client GET "/api/v0/hosts" query "" (createHandler responseHosts)
+  request client GET "/api/v0/hosts" query emptyBody (createHandler responseHosts)
 
 data ListMetricNamesResponse = ListMetricNamesResponse { responseNames :: [String] }
 $(deriveJSON options ''ListMetricNamesResponse)
 
 listHostMetricNames :: Client -> HostId -> IO (Either ApiError [String])
 listHostMetricNames client (HostId hostId')
-  = request client GET ("/api/v0/hosts/" <> BS.pack hostId' <> "/metric-names") [] "" (createHandler responseNames)
+  = request client GET ("/api/v0/hosts/" <> BS.pack hostId' <> "/metric-names") [] emptyBody (createHandler responseNames)

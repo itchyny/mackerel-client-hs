@@ -1,4 +1,4 @@
-module Web.Mackerel.Client (Client(..)) where
+module Web.Mackerel.Client (Client, apiKey, apiBase, userAgent) where
 
 import Data.Default (Default(..))
 

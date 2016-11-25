@@ -126,3 +126,19 @@ data Host
   } deriving (Eq, Show)
 
 $(deriveJSON options ''Host)
+
+data HostCreate
+  = HostCreate {
+    hostCreateName :: String,
+    hostCreateDisplayName :: Maybe String,
+    hostCreateCustomIdentifier :: Maybe String,
+    hostCreateMeta :: HostMeta,
+    hostCreateInterfaces :: Maybe [HostInterface],
+    hostCreateRoleFullnames :: Maybe [String],
+    hostCreateChecks :: Maybe [String]
+  } deriving (Eq, Show)
+
+instance Default HostCreate where
+  def = HostCreate def def def def def def def
+
+$(deriveJSON options { fieldLabelModifier = (\(c:cs) -> toLower c : cs) . drop 10 } ''HostCreate)

@@ -5,6 +5,7 @@ module Web.Mackerel.Api.Host
   , getHost
   , updateHost
   , updateHostStatus
+  , updateHostRoleFullnames
   , listHosts
   , ListHostsParams(..)
   , listHostMetricNames
@@ -48,6 +49,11 @@ updateHostStatus :: Client -> HostId -> HostStatus -> IO (Either ApiError Bool)
 updateHostStatus client (HostId hostId') status = do
   let body = Just $ HM.fromList [("status", status) :: (String, HostStatus)]
   request client POST ("/api/v0/hosts/" <> BS.pack hostId' <> "/status") [] body (createHandler responseSuccess)
+
+updateHostRoleFullnames :: Client -> HostId -> [String] -> IO (Either ApiError Bool)
+updateHostRoleFullnames client (HostId hostId') roleFullnames = do
+  let body = Just $ HM.fromList [("roleFullnames", roleFullnames ) :: (String, [String])]
+  request client PUT ("/api/v0/hosts/" <> BS.pack hostId' <> "/role-fullnames") [] body (createHandler responseSuccess)
 
 data ListHostsParams
   = ListHostsParams {

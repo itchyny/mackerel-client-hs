@@ -4,6 +4,7 @@ module Web.Mackerel.Api.Host
   ( createHost
   , getHost
   , updateHost
+  , updateHostStatus
   , listHosts
   , ListHostsParams(..)
   , listHostMetricNames
@@ -12,6 +13,7 @@ module Web.Mackerel.Api.Host
 import Data.Aeson.TH (deriveJSON)
 import qualified Data.ByteString.Char8 as BS
 import Data.Default (Default(..))
+import qualified Data.HashMap.Lazy as HM
 import Data.Maybe (maybeToList)
 import Data.Semigroup ((<>))
 import Network.HTTP.Types (StdMethod(..))
@@ -38,6 +40,14 @@ getHost client (HostId hostId')
 updateHost :: Client -> HostId -> HostCreate -> IO (Either ApiError HostId)
 updateHost client (HostId hostId') host
   = request client PUT ("/api/v0/hosts/" <> BS.pack hostId') [] (Just host) (createHandler responseId)
+
+data SuccessResponse = SuccessResponse { responseSuccess :: Bool }
+$(deriveJSON options ''SuccessResponse)
+
+updateHostStatus :: Client -> HostId -> HostStatus -> IO (Either ApiError Bool)
+updateHostStatus client (HostId hostId') status = do
+  let body = Just $ HM.fromList [("status", status) :: (String, HostStatus)]
+  request client POST ("/api/v0/hosts/" <> BS.pack hostId' <> "/status") [] body (createHandler responseSuccess)
 
 data ListHostsParams
   = ListHostsParams {

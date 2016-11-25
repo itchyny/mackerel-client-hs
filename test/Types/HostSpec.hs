@@ -232,3 +232,83 @@ spec = do
       read "working" `shouldBe` HostStatusWorking
       read "maintenance" `shouldBe` HostStatusMaintenance
       read "[working,standby,maintenance,poweroff]" `shouldBe` [HostStatusWorking, HostStatusStandby, HostStatusMaintenance, HostStatusPoweroff]
+
+  let hostCreate1 = HostCreate {
+        hostCreateName = "foohost.example",
+        hostCreateDisplayName = Nothing,
+        hostCreateCustomIdentifier = Nothing,
+        hostCreateMeta = def,
+        hostCreateInterfaces = Nothing,
+        hostCreateRoleFullnames = Nothing,
+        hostCreateChecks = Nothing
+      }
+
+  let jsonCreate1 = [aesonQQ|
+    {
+      "name": "foohost.example",
+      "meta": {}
+    }
+  |]
+
+  let hostCreate2 = HostCreate {
+        hostCreateName = "foohost.example",
+        hostCreateDisplayName = Just "Foo host",
+        hostCreateCustomIdentifier = Just "foo-host-identifier",
+        hostCreateMeta = def {
+          metaAgentName = Just "mackerel-agent/0.37.0 (Revision 3c11c2c)",
+          metaAgentRevision = Just "3c11c2c",
+          metaAgentVersion = Just "0.37.0"
+        },
+        hostCreateInterfaces = Just [
+          HostInterface {
+            hostInterfaceName = "en0",
+            hostInterfaceMacAddress = Just "ff:ff:ff:ff:ff:ff",
+            hostInterfaceIpv4Addresses = Just ["192.168.100.2"],
+            hostInterfaceIpv6Addresses = Just ["2001:268:c00f:8a08::"]
+          }
+        ],
+        hostCreateRoleFullnames = Just ["foo:bar", "foo:baz"],
+        hostCreateChecks = Just [
+          "plugin.checks.access_log",
+          "plugin.checks.check_cron"
+        ]
+      }
+
+  let jsonCreate2 = [aesonQQ|
+    {
+      "name": "foohost.example",
+      "displayName":  "Foo host",
+      "customIdentifier": "foo-host-identifier",
+      "meta": {
+        "agent-name": "mackerel-agent/0.37.0 (Revision 3c11c2c)",
+        "agent-revision": "3c11c2c",
+        "agent-version": "0.37.0"
+      },
+      "interfaces": [
+        {
+          "name": "en0",
+          "macAddress": "ff:ff:ff:ff:ff:ff",
+          "ipv4Addresses": ["192.168.100.2"],
+          "ipv6Addresses": ["2001:268:c00f:8a08::"]
+        }
+      ],
+      "roleFullnames": [
+        "foo:bar",
+        "foo:baz"
+      ],
+      "checks": [
+        "plugin.checks.access_log",
+        "plugin.checks.check_cron"
+      ]
+    }
+  |]
+
+  describe "HostCreate FromJSON" $
+    it "should parse a json" $
+      forM_ [(jsonCreate1, hostCreate1), (jsonCreate2, hostCreate2)] $ \(json, host) ->
+        decode (encode json) `shouldBe` Just host
+
+  describe "HostCreate ToJSON" $
+    it "should encode into a json" $
+      forM_ [(jsonCreate1, hostCreate1), (jsonCreate2, hostCreate2)] $ \(json, host) ->
+        decode (encode host) `shouldBe` Just json

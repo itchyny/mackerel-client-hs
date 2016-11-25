@@ -6,6 +6,7 @@ module Web.Mackerel.Api.Host
   , updateHost
   , updateHostStatus
   , updateHostRoleFullnames
+  , retireHost
   , listHosts
   , ListHostsParams(..)
   , listHostMetricNames
@@ -54,6 +55,10 @@ updateHostRoleFullnames :: Client -> HostId -> [String] -> IO (Either ApiError B
 updateHostRoleFullnames client (HostId hostId') roleFullnames = do
   let body = Just $ HM.fromList [("roleFullnames", roleFullnames ) :: (String, [String])]
   request client PUT ("/api/v0/hosts/" <> BS.pack hostId' <> "/role-fullnames") [] body (createHandler responseSuccess)
+
+retireHost :: Client -> HostId -> IO (Either ApiError Bool)
+retireHost client (HostId hostId')
+  = request client POST ("/api/v0/hosts/" <> BS.pack hostId' <> "/retire") [] emptyBody (createHandler responseSuccess)
 
 data ListHostsParams
   = ListHostsParams {

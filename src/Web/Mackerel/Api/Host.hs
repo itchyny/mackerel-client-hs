@@ -3,6 +3,7 @@
 module Web.Mackerel.Api.Host
   ( createHost
   , getHost
+  , updateHost
   , listHosts
   , ListHostsParams(..)
   , listHostMetricNames
@@ -33,6 +34,10 @@ $(deriveJSON options ''GetHostResponse)
 getHost :: Client -> HostId -> IO (Either ApiError Host)
 getHost client (HostId hostId')
   = request client GET ("/api/v0/hosts/" <> BS.pack hostId') [] emptyBody (createHandler responseHost)
+
+updateHost :: Client -> HostId -> HostCreate -> IO (Either ApiError HostId)
+updateHost client (HostId hostId') host
+  = request client PUT ("/api/v0/hosts/" <> BS.pack hostId') [] (Just host) (createHandler responseId)
 
 data ListHostsParams
   = ListHostsParams {

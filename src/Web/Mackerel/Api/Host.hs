@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 -- | Host API.
 module Web.Mackerel.Api.Host
-  ( getHost
+  ( createHost
+  , getHost
   , listHosts
   , ListHostsParams(..)
   , listHostMetricNames
@@ -18,6 +19,13 @@ import Web.Mackerel.Client
 import Web.Mackerel.Internal.Api
 import Web.Mackerel.Internal.TH
 import Web.Mackerel.Types.Host
+
+data CreateHostResponse = CreateHostResponse { responseId :: HostId }
+$(deriveJSON options ''CreateHostResponse)
+
+createHost :: Client -> HostCreate -> IO (Either ApiError HostId)
+createHost client host
+  = request client POST "/api/v0/hosts" [] (Just host) (createHandler responseId)
 
 data GetHostResponse = GetHostResponse { responseHost :: Host }
 $(deriveJSON options ''GetHostResponse)

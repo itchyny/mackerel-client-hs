@@ -29,13 +29,10 @@ createMonitor :: Client -> Monitor -> IO (Either ApiError Monitor)
 createMonitor client monitor
   = request client POST "/api/v0/monitors" [] (Just monitor) (createHandler id)
 
-data UpdateMonitorResponse = UpdateMonitorResponse { responseId :: MonitorId }
-$(deriveJSON options ''UpdateMonitorResponse)
-
-updateMonitor :: Client -> Monitor -> IO (Either ApiError MonitorId)
+updateMonitor :: Client -> Monitor -> IO (Either ApiError Monitor)
 updateMonitor client monitor = do
   let Just (MonitorId monitorId') = monitorId monitor
-  request client PUT ("/api/v0/monitors/" <> BS.pack monitorId') [] (Just monitor) (createHandler responseId)
+  request client PUT ("/api/v0/monitors/" <> BS.pack monitorId') [] (Just monitor) (createHandler id)
 
 deleteMonitor :: Client -> MonitorId -> IO (Either ApiError Value)
 deleteMonitor client (MonitorId monitorId')

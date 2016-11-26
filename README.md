@@ -26,3 +26,9 @@ main = do
   print =<< listAlerts client
   print =<< closeAlert client (AlertId "<Alert-ID>") "this is not an important alert"
 ```
+
+## Author
+itchyny (https://github.com/itchyny)
+
+## License
+This software is released under the MIT License, see LICENSE.

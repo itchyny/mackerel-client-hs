@@ -7,7 +7,7 @@ data Client
     apiKey :: String,
     apiBase :: String,
     userAgent :: String
-  }
+  } deriving (Eq, Show)
 
 instance Default Client where
   def = Client {

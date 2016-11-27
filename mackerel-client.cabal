@@ -36,14 +36,19 @@ library
                       , Web.Mackerel.Api.Alert
                       , Web.Mackerel.Api.Dashboard
                       , Web.Mackerel.Client
+                      , Web.Mackerel.Config
   other-modules:        Web.Mackerel.Internal.TH
                       , Web.Mackerel.Internal.Api
   build-depends:        base >= 4.7 && < 5.0
+                      , filepath
+                      , directory
                       , http-types
                       , http-client
                       , http-client-tls
                       , bytestring
+                      , parsec
                       , aeson
+                      , htoml
                       , text
                       , unordered-containers
                       , data-default

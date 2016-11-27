@@ -60,6 +60,7 @@ test-suite spec
   type:                 exitcode-stdio-1.0
   ghc-options:          -Wall
   other-modules:        Types.OrganizationSpec
+                      , Types.UserSpec
                       , Types.ServiceSpec
                       , Types.RoleSpec
                       , Types.HostSpec

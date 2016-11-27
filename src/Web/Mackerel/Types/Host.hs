@@ -9,6 +9,7 @@ import Data.Aeson.Types (Parser, typeMismatch)
 import Data.Char (toLower)
 import Data.Default (Default(..))
 import qualified Data.HashMap.Lazy as HM
+import Data.Maybe (isJust)
 import qualified Data.Text as Text
 
 import Web.Mackerel.Internal.TH
@@ -56,10 +57,13 @@ instance FromJSON HostMetaCpu where
 
 instance ToJSON HostMetaCpu where
   toJSON (HostMetaCpu cacheSize coreId cores family mhz model modelName physicalId stepping vendorId)
-    = object [
-      "cache_size" .= cacheSize, "core_id" .= coreId, "cores" .= cores,
-      "family" .= family, "mhz" .= mhz, "model" .= model,
-      "model_name" .= modelName, "physical_id" .= physicalId, "stepping" .= stepping, "vendor_id" .= vendorId
+    = object [ key .= value |
+        (key, value) <- [
+          ("cache_size", cacheSize), ("core_id", coreId), ("cores", cores), ("family", family),
+          ("mhz", mhz), ("model", model), ("model_name", modelName),
+          ("physical_id", physicalId), ("stepping", stepping), ("vendor_id", vendorId)
+        ],
+        isJust value
     ]
 
 data HostMeta

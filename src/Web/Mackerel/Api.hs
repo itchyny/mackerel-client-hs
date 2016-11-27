@@ -1,4 +1,4 @@
-module Web.Mackerel.Api (module Api) where
+module Web.Mackerel.Api (module Api, ApiError, errorStatusCode, errorMessage) where
 
 import Web.Mackerel.Api.Alert as Api
 import Web.Mackerel.Api.Dashboard as Api
@@ -8,3 +8,4 @@ import Web.Mackerel.Api.Organization as Api
 import Web.Mackerel.Api.Role as Api
 import Web.Mackerel.Api.Service as Api
 import Web.Mackerel.Api.User as Api
+import Web.Mackerel.Internal.Api (ApiError, errorStatusCode, errorMessage)

@@ -66,10 +66,12 @@ test-suite spec
                       , Types.MonitorSpec
                       , Types.AlertSpec
                       , Types.DashboardSpec
+                      , ConfigSpec
   build-depends:        base >= 4.7 && < 5.0
                       , mackerel-client
                       , aeson
                       , aeson-qq
+                      , raw-strings-qq
                       , unordered-containers
                       , data-default
                       , hspec

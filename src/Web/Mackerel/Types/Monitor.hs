@@ -96,7 +96,7 @@ data Monitor
     monitorId :: Maybe MonitorId,
     monitorName :: String,
     monitorUrl :: String,
-    monitorServiceOpt :: Maybe String,
+    monitorServiceOption :: Maybe String,
     monitorResponseTimeDuration :: Maybe Double,
     monitorResponseTimeWarning :: Maybe Double,
     monitorResponseTimeCritical :: Maybe Double,
@@ -125,5 +125,5 @@ $(deriveJSON options {
   constructorTagModifier = map toLower . drop 7,
   fieldLabelModifier = \xs ->
     let ys = fieldLabelModifier options xs
-        in if "Opt" `isSuffixOf` ys then take (length ys - 3) ys else ys
+        in if "Option" `isSuffixOf` ys then take (length ys - 6) ys else ys
 } ''Monitor)

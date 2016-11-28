@@ -32,7 +32,8 @@ spec = do
         configHostStatus = Just HostStatusConfig {
           hostStatusOnStart = Just HostStatusWorking,
           hostStatusOnStop = Just HostStatusPoweroff
-        }
+        },
+        configHttpProxy = Just "http://localhost:8080"
       }
 
   let toml2 = [r|
@@ -45,6 +46,7 @@ spec = do
         diagnostic = false
 
         display_name = "Example Host"
+        http_proxy = "http://localhost:8080"
 
         roles = [ "service1:role1", "service2:role3" ]
 

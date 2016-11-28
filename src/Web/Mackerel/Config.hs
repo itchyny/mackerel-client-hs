@@ -35,7 +35,8 @@ data Config
     configVerbose :: Maybe Bool,
     configDiagnostic :: Maybe Bool,
     configDisplayname :: Maybe String,
-    configHostStatus :: Maybe HostStatusConfig
+    configHostStatus :: Maybe HostStatusConfig,
+    configHttpProxy :: Maybe String
   } deriving (Eq, Show)
 
 instance FromJSON Config where
@@ -43,10 +44,11 @@ instance FromJSON Config where
     = Config <$> o .:? "apibase" <*> o .:? "apikey" <*> o .:? "root"
              <*> o .:? "pidfile" <*> o .:? "roles" <*> o .:? "verbose"
              <*> o .:? "diagnostic" <*> o .:? "display_name" <*> o .:? "host_status"
+             <*> o .:? "http_proxy"
   parseJSON o = typeMismatch "Config" o
 
 instance Default Config where
-  def = Config def def def def def def def def def
+  def = Config def def def def def def def def def def
 
 data HostStatusConfig
   = HostStatusConfig {

@@ -19,6 +19,6 @@ listUsers :: Client -> IO (Either ApiError [User])
 listUsers client
   = request client GET "/api/v0/users" [] emptyBody (createHandler responseUsers)
 
-deleteUser :: Client -> String -> IO (Either ApiError User)
-deleteUser client userId'
+deleteUser :: Client -> UserId -> IO (Either ApiError User)
+deleteUser client (UserId userId')
   = request client DELETE ("/api/v0/users/" <> BS.pack userId') [] emptyBody (createHandler id)

@@ -7,11 +7,11 @@ license-file:           LICENSE
 category:               Web
 build-type:             Simple
 cabal-version:          >=1.8
-synopsis:               An API client library for Mackerel (https://mackerel.io)
+synopsis:               An API client library for Mackerel
 description:            This library provides bindings to Mackerel APIs.
                         .
-                        The official site of Mackerel: https://mackerel.io/.
-                        The reference of Mackerel API: https://mackerel.io/api-docs/.
+                        The official site of Mackerel: <https://mackerel.io/>.
+                        The reference of Mackerel API: <https://mackerel.io/api-docs/>.
 extra-source-files:     README.md
 
 library

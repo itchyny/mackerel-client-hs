@@ -1,13 +1,27 @@
 {-# LANGUAGE TemplateHaskell #-}
 module Web.Mackerel.Types.User where
 
+import Data.Aeson
+import qualified Data.Aeson as Aeson
 import Data.Aeson.TH (deriveJSON)
+import Data.Aeson.Types (typeMismatch)
+import qualified Data.Text as Text
 
 import Web.Mackerel.Internal.TH
 
+data UserId = UserId String
+            deriving (Eq, Show)
+
+instance FromJSON UserId where
+  parseJSON (Aeson.String alertId) = return $ UserId $ Text.unpack alertId
+  parseJSON o = typeMismatch "UserId" o
+
+instance ToJSON UserId where
+  toJSON (UserId alertId) = toJSON alertId
+
 data User
   = User {
-    userId :: String,
+    userId :: UserId,
     userScreenName :: String,
     userEmail :: String
   } deriving (Eq, Show)

@@ -13,7 +13,7 @@ spec :: Spec
 spec = do
 
   let user = User {
-        userId = "abcde",
+        userId = UserId "abcde",
         userScreenName = "Example Mackerel",
         userEmail = "mackerel@example.com"
       }

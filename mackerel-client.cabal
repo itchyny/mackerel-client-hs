@@ -42,7 +42,7 @@ library
                       , Web.Mackerel.Config
   other-modules:        Web.Mackerel.Internal.TH
                       , Web.Mackerel.Internal.Api
-  build-depends:        base >= 4.7 && < 5.0
+  build-depends:        base >= 4.9 && < 5.0
                       , filepath
                       , directory
                       , http-types
@@ -71,7 +71,7 @@ test-suite spec
                       , Types.AlertSpec
                       , Types.DashboardSpec
                       , ConfigSpec
-  build-depends:        base >= 4.7 && < 5.0
+  build-depends:        base >= 4.9 && < 5.0
                       , mackerel-client
                       , aeson
                       , aeson-qq

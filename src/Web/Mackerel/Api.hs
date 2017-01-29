@@ -2,6 +2,7 @@ module Web.Mackerel.Api (module Api, ApiError, errorStatusCode, errorMessage) wh
 
 import Web.Mackerel.Api.Alert as Api
 import Web.Mackerel.Api.Dashboard as Api
+import Web.Mackerel.Api.GraphAnnotation as Api
 import Web.Mackerel.Api.Host as Api
 import Web.Mackerel.Api.Monitor as Api
 import Web.Mackerel.Api.Organization as Api

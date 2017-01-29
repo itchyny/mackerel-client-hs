@@ -39,6 +39,7 @@ library
                       , Web.Mackerel.Api.Monitor
                       , Web.Mackerel.Api.Alert
                       , Web.Mackerel.Api.Dashboard
+                      , Web.Mackerel.Api.GraphAnnotation
                       , Web.Mackerel.Client
                       , Web.Mackerel.Config
   other-modules:        Web.Mackerel.Internal.TH

@@ -29,6 +29,7 @@ library
                       , Web.Mackerel.Types.Monitor
                       , Web.Mackerel.Types.Alert
                       , Web.Mackerel.Types.Dashboard
+                      , Web.Mackerel.Types.GraphAnnotation
                       , Web.Mackerel.Api
                       , Web.Mackerel.Api.Organization
                       , Web.Mackerel.Api.User

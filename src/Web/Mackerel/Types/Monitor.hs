@@ -40,6 +40,34 @@ instance FromJSON MonitorOperator where
 instance ToJSON MonitorOperator where
   toJSON op = toJSON (show op)
 
+data MonitorExternalMethod = MonitorExternalMethodGET
+                           | MonitorExternalMethodPOST
+                           | MonitorExternalMethodPUT
+                           | MonitorExternalMethodDELETE
+                           deriving Eq
+
+instance Show MonitorExternalMethod where
+  show MonitorExternalMethodGET = "GET"
+  show MonitorExternalMethodPOST = "POST"
+  show MonitorExternalMethodPUT = "PUT"
+  show MonitorExternalMethodDELETE = "DELETE"
+
+instance Read MonitorExternalMethod where
+  readsPrec _ xs = [ (hs, drop (length str) xs) | (hs, str) <- pairs', take (length str) xs == str ]
+    where pairs' = [(MonitorExternalMethodGET, "GET"), (MonitorExternalMethodPOST, "POST"), (MonitorExternalMethodPUT, "PUT"), (MonitorExternalMethodDELETE, "DELETE")]
+
+instance FromJSON MonitorExternalMethod where
+  parseJSON (Aeson.String txt)
+    | str == "GET" = return MonitorExternalMethodGET
+    | str == "POST" = return MonitorExternalMethodPOST
+    | str == "PUT" = return MonitorExternalMethodPUT
+    | str == "DELETE" = return MonitorExternalMethodDELETE
+    where str = Text.unpack txt
+  parseJSON o = typeMismatch "MonitorExternalMethod" o
+
+instance ToJSON MonitorExternalMethod where
+  toJSON method = toJSON (show method)
+
 data MonitorExternalHeader
   = MonitorExternalHeader {
     monitorHeaderName :: String,

@@ -123,7 +123,10 @@ data Monitor
   | MonitorExternal {
     monitorId :: Maybe MonitorId,
     monitorName :: String,
+    monitorMethod :: Maybe MonitorExternalMethod,
     monitorUrl :: String,
+    monitorRequestBody :: Maybe String,
+    monitorHeaders :: Maybe [MonitorExternalHeader],
     monitorServiceOption :: Maybe String,
     monitorResponseTimeDuration :: Maybe Double,
     monitorResponseTimeWarning :: Maybe Double,
@@ -133,7 +136,6 @@ data Monitor
     monitorCertificationExpirationWarning :: Maybe Integer,
     monitorCertificationExpirationCritical :: Maybe Integer,
     monitorSkipCertificateVerification :: Maybe Bool,
-    monitorHeaders :: Maybe [MonitorExternalHeader],
     monitorIsMute :: Maybe Bool,
     monitorNotificationInterval :: Maybe Integer
   }

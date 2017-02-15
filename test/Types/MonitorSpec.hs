@@ -92,7 +92,10 @@ spec = do
   let externalMonitor = MonitorExternal {
         monitorId = Just $ MonitorId "abcde4",
         monitorName = "Example external monitor",
+        monitorMethod = Just MonitorExternalMethodGET,
         monitorUrl = "https://example.com",
+        monitorRequestBody = Just "Request Body",
+        monitorHeaders = Just [MonitorExternalHeader "Cache-Control" "no-cache"],
         monitorServiceOption = Just "service1",
         monitorResponseTimeDuration = Just 5,
         monitorResponseTimeWarning = Just 3000,
@@ -102,7 +105,6 @@ spec = do
         monitorCertificationExpirationWarning = Just 1200,
         monitorCertificationExpirationCritical = Just 60,
         monitorSkipCertificateVerification = Just True,
-        monitorHeaders = Just [MonitorExternalHeader "Cache-Control" "no-cache"],
         monitorIsMute = Just True,
         monitorNotificationInterval = Just 60
       }
@@ -112,7 +114,10 @@ spec = do
       "type": "external",
       "id": "abcde4",
       "name": "Example external monitor",
+      "method": "GET",
       "url": "https://example.com",
+      "requestBody": "Request Body",
+      "headers": [{ "name": "Cache-Control", "value": "no-cache" }],
       "service": "service1",
       "responseTimeDuration": 5,
       "responseTimeWarning": 3000,
@@ -122,7 +127,6 @@ spec = do
       "certificationExpirationWarning": 1200,
       "certificationExpirationCritical": 60,
       "skipCertificateVerification": true,
-      "headers": [{ "name": "Cache-Control", "value": "no-cache" }],
       "isMute": true,
       "notificationInterval": 60
     }

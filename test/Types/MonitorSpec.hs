@@ -14,6 +14,7 @@ spec = do
   let hostMonitor = MonitorHost {
         monitorId = Just $ MonitorId "abcde1",
         monitorName = "Monitor custom.foo.bar",
+        monitorMemo = Just "Monitor memo",
         monitorDuration = 5,
         monitorMetric = "custom.foo.bar",
         monitorOperator = MonitorGreaterThan,
@@ -30,6 +31,7 @@ spec = do
       "type": "host",
       "id": "abcde1",
       "name": "Monitor custom.foo.bar",
+      "memo": "Monitor memo",
       "duration": 5,
       "metric": "custom.foo.bar",
       "operator": ">",
@@ -45,6 +47,7 @@ spec = do
   let connectivity = MonitorConnectivity {
         monitorId = Just $ MonitorId "abcde2",
         monitorName = "connectivity",
+        monitorMemo = Just "Monitor memo",
         monitorIsMute = Just False,
         monitorNotificationInterval = Nothing,
         monitorScopes = Nothing,
@@ -56,6 +59,7 @@ spec = do
       "type": "connectivity",
       "id": "abcde2",
       "name": "connectivity",
+      "memo": "Monitor memo",
       "isMute": false
     }
   |]
@@ -63,6 +67,7 @@ spec = do
   let serviceMonitor = MonitorService {
         monitorId = Just $ MonitorId "abcde3",
         monitorName = "Service count",
+        monitorMemo = Just "Monitor memo",
         monitorService = "service1",
         monitorDuration = 5,
         monitorMetric = "custom.service.count",
@@ -78,6 +83,7 @@ spec = do
       "type": "service",
       "id": "abcde3",
       "name": "Service count",
+      "memo": "Monitor memo",
       "service": "service1",
       "duration": 5,
       "metric": "custom.service.count",
@@ -92,6 +98,7 @@ spec = do
   let externalMonitor = MonitorExternal {
         monitorId = Just $ MonitorId "abcde4",
         monitorName = "Example external monitor",
+        monitorMemo = Just "Monitor memo",
         monitorMethod = Just MonitorExternalMethodGET,
         monitorUrl = "https://example.com",
         monitorRequestBody = Just "Request Body",
@@ -114,6 +121,7 @@ spec = do
       "type": "external",
       "id": "abcde4",
       "name": "Example external monitor",
+      "memo": "Monitor memo",
       "method": "GET",
       "url": "https://example.com",
       "requestBody": "Request Body",
@@ -135,6 +143,7 @@ spec = do
   let expressionMonitor = MonitorExpression {
         monitorId = Just $ MonitorId "abcde5",
         monitorName = "Example expression monitor",
+        monitorMemo = Just "Monitor memo",
         monitorExpression = "min(role(\"foo:bar\", \"custom.foo.bar\"))",
         monitorOperator = MonitorLessThan,
         monitorWarning = 10.0,
@@ -148,6 +157,7 @@ spec = do
       "type": "expression",
       "id": "abcde5",
       "name": "Example expression monitor",
+      "memo": "Monitor memo",
       "expression": "min(role(\"foo:bar\", \"custom.foo.bar\"))",
       "operator": "<",
       "warning": 10.0,

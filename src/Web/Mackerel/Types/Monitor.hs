@@ -90,6 +90,7 @@ data Monitor
   = MonitorHost {
     monitorId :: Maybe MonitorId,
     monitorName :: String,
+    monitorMemo :: Maybe String,
     monitorDuration :: Integer,
     monitorMetric :: String,
     monitorOperator :: MonitorOperator,
@@ -103,6 +104,7 @@ data Monitor
   | MonitorConnectivity {
     monitorId :: Maybe MonitorId,
     monitorName :: String,
+    monitorMemo :: Maybe String,
     monitorIsMute :: Maybe Bool,
     monitorNotificationInterval :: Maybe Integer,
     monitorScopes :: Maybe [String],
@@ -111,6 +113,7 @@ data Monitor
   | MonitorService {
     monitorId :: Maybe MonitorId,
     monitorName :: String,
+    monitorMemo :: Maybe String,
     monitorService :: String,
     monitorDuration :: Integer,
     monitorMetric :: String,
@@ -123,6 +126,7 @@ data Monitor
   | MonitorExternal {
     monitorId :: Maybe MonitorId,
     monitorName :: String,
+    monitorMemo :: Maybe String,
     monitorMethod :: Maybe MonitorExternalMethod,
     monitorUrl :: String,
     monitorRequestBody :: Maybe String,
@@ -142,6 +146,7 @@ data Monitor
   | MonitorExpression {
     monitorId :: Maybe MonitorId,
     monitorName :: String,
+    monitorMemo :: Maybe String,
     monitorExpression :: String,
     monitorOperator :: MonitorOperator,
     monitorWarning :: Double,

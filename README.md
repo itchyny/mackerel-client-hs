@@ -28,7 +28,7 @@ main = do
 ```
 
 ## Author
-itchyny (https://github.com/itchyny)
+itchyny <itchyny@hatena.ne.jp>
 
 ## License
 This software is released under the MIT License, see LICENSE.

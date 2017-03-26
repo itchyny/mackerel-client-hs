@@ -34,9 +34,7 @@ data Dashboard
     dashboardId :: DashboardId,
     dashboardTitle :: String,
     dashboardBodyMarkdown :: String,
-    dashboardUrlPath :: String,
-    dashboardCreatedAt :: Integer,
-    dashboardUpdatedAt :: Integer
+    dashboardUrlPath :: String
   } deriving (Eq, Show)
 
 $(deriveJSON options ''Dashboard)

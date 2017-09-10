@@ -23,6 +23,7 @@ library
                       , Web.Mackerel.Types
                       , Web.Mackerel.Types.Organization
                       , Web.Mackerel.Types.User
+                      , Web.Mackerel.Types.Invitation
                       , Web.Mackerel.Types.Service
                       , Web.Mackerel.Types.Role
                       , Web.Mackerel.Types.Host

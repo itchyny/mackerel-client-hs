@@ -14,6 +14,6 @@ createInvitation :: Client -> Invitation -> IO (Either ApiError Invitation)
 createInvitation client invitation
   = request client POST "/api/v0/invitations" [] (Just invitation) (createHandler id)
 
-revokeInvitation :: Client -> String -> IO (Either ApiError Value)
+revokeInvitation :: Client -> String -> IO (Either ApiError ())
 revokeInvitation client email
-  = request client POST "/api/v0/invitations/revoke" [] (Just (HM.singleton "email" email :: HM.HashMap String String)) (createHandler id)
+  = request client POST "/api/v0/invitations/revoke" [] (Just (HM.singleton "email" email :: HM.HashMap String String)) (createHandler ((\_ -> ()) :: Value -> ()))

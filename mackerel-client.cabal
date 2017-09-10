@@ -34,6 +34,7 @@ library
                       , Web.Mackerel.Api
                       , Web.Mackerel.Api.Organization
                       , Web.Mackerel.Api.User
+                      , Web.Mackerel.Api.Invitation
                       , Web.Mackerel.Api.Service
                       , Web.Mackerel.Api.Role
                       , Web.Mackerel.Api.Host

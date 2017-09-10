@@ -5,6 +5,7 @@ import Web.Mackerel.Types.Dashboard as Types
 import Web.Mackerel.Types.GraphAnnotation as Types
 import Web.Mackerel.Types.Host as Types
 import Web.Mackerel.Types.Invitation as Types
+import Web.Mackerel.Types.Metadata as Types
 import Web.Mackerel.Types.Monitor as Types
 import Web.Mackerel.Types.Organization as Types
 import Web.Mackerel.Types.Role as Types

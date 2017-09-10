@@ -27,6 +27,7 @@ library
                       , Web.Mackerel.Types.Service
                       , Web.Mackerel.Types.Role
                       , Web.Mackerel.Types.Host
+                      , Web.Mackerel.Types.Metadata
                       , Web.Mackerel.Types.Monitor
                       , Web.Mackerel.Types.Alert
                       , Web.Mackerel.Types.Dashboard
@@ -72,6 +73,7 @@ test-suite spec
                       , Types.ServiceSpec
                       , Types.RoleSpec
                       , Types.HostSpec
+                      , Types.MetadataSpec
                       , Types.MonitorSpec
                       , Types.AlertSpec
                       , Types.DashboardSpec

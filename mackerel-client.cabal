@@ -39,6 +39,7 @@ library
                       , Web.Mackerel.Api.Service
                       , Web.Mackerel.Api.Role
                       , Web.Mackerel.Api.Host
+                      , Web.Mackerel.Api.Metadata
                       , Web.Mackerel.Api.Monitor
                       , Web.Mackerel.Api.Alert
                       , Web.Mackerel.Api.Dashboard

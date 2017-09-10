@@ -75,6 +75,7 @@ test-suite spec
                       , Types.MonitorSpec
                       , Types.AlertSpec
                       , Types.DashboardSpec
+                      , Types.GraphAnnotationSpec
                       , ConfigSpec
   build-depends:        base >= 4.9 && < 5.0
                       , mackerel-client

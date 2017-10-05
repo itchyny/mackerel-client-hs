@@ -21,7 +21,7 @@ spec = do
       |]
 
   let config2 = Config {
-        configApiBase = Just "https://mackerel.io",
+        configApiBase = Just "https://api.mackerelio.com",
         configApiKey = Just "<Mackerel-API-KEY>",
         configRoot = Just "/var/lib/mackerel-agent",
         configPidfile = Just "/var/run/mackerel-agent.pid",
@@ -37,7 +37,7 @@ spec = do
       }
 
   let toml2 = [r|
-        apibase = "https://mackerel.io"
+        apibase = "https://api.mackerelio.com"
         apikey = "<Mackerel-API-KEY>"
         root = "/var/lib/mackerel-agent"
         pidfile = "/var/run/mackerel-agent.pid"

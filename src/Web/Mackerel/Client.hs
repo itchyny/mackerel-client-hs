@@ -12,6 +12,6 @@ data Client
 instance Default Client where
   def = Client {
     apiKey = "",
-    apiBase = "https://mackerel.io",
+    apiBase = "https://api.mackerelio.com",
     userAgent = "mackerel-client-hs"
   }

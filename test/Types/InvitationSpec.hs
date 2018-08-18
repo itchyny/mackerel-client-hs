@@ -7,6 +7,7 @@ import Data.Aeson.QQ
 import qualified Data.HashMap.Lazy as HM
 import Test.Hspec
 
+import Web.Mackerel.Types.Authority
 import Web.Mackerel.Types.Invitation
 
 spec :: Spec
@@ -14,7 +15,7 @@ spec = do
 
   let invitation' = Invitation {
         invitationEmail = "foobar@example.com",
-        invitationAuthority = InvitationAuthorityManager
+        invitationAuthority = AuthorityManager
       }
 
   let json = [aesonQQ|

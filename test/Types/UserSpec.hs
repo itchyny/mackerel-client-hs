@@ -7,6 +7,7 @@ import Data.Aeson.QQ
 import qualified Data.HashMap.Lazy as HM
 import Test.Hspec
 
+import Web.Mackerel.Types.Authority
 import Web.Mackerel.Types.User
 
 spec :: Spec
@@ -15,14 +16,16 @@ spec = do
   let user = User {
         userId = UserId "abcde",
         userScreenName = "Example Mackerel",
-        userEmail = "mackerel@example.com"
+        userEmail = "mackerel@example.com",
+        userAuthority = AuthorityCollaborator
       }
 
   let json = [aesonQQ|
     {
       "id": "abcde",
       "screenName": "Example Mackerel",
-      "email": "mackerel@example.com"
+      "email": "mackerel@example.com",
+      "authority": "collaborator"
     }
   |]
 

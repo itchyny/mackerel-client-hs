@@ -8,6 +8,7 @@ import Data.Aeson.Types (typeMismatch)
 import qualified Data.Text as Text
 
 import Web.Mackerel.Internal.TH
+import Web.Mackerel.Types.Authority
 
 data UserId = UserId String
             deriving (Eq, Show)
@@ -23,7 +24,8 @@ data User
   = User {
     userId :: UserId,
     userScreenName :: String,
-    userEmail :: String
+    userEmail :: String,
+    userAuthority :: Authority
   } deriving (Eq, Show)
 
 $(deriveJSON options ''User)

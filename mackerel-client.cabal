@@ -43,6 +43,7 @@ library
                       , Web.Mackerel.Api.Host
                       , Web.Mackerel.Api.Metadata
                       , Web.Mackerel.Api.Monitor
+                      , Web.Mackerel.Api.Channel
                       , Web.Mackerel.Api.Alert
                       , Web.Mackerel.Api.Dashboard
                       , Web.Mackerel.Api.GraphAnnotation

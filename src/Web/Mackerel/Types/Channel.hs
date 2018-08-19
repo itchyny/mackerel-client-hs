@@ -13,11 +13,11 @@ data ChannelId = ChannelId String
                deriving (Eq, Show)
 
 instance FromJSON ChannelId where
-  parseJSON (Aeson.String channelId) = return $ ChannelId $ Text.unpack channelId
+  parseJSON (Aeson.String channelId') = return $ ChannelId $ Text.unpack channelId'
   parseJSON o = typeMismatch "ChannelId" o
 
 instance ToJSON ChannelId where
-  toJSON (ChannelId channelId) = toJSON channelId
+  toJSON (ChannelId channelId') = toJSON channelId'
 
 data Channel
   = Channel {

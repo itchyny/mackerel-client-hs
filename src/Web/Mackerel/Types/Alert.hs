@@ -13,14 +13,14 @@ import Web.Mackerel.Types.Host (HostId)
 import Web.Mackerel.Types.Monitor (MonitorId, MonitorType)
 
 data AlertId = AlertId String
-            deriving (Eq, Show)
+             deriving (Eq, Show)
 
 instance FromJSON AlertId where
-  parseJSON (Aeson.String alertId) = return $ AlertId $ Text.unpack alertId
+  parseJSON (Aeson.String alertId') = return $ AlertId $ Text.unpack alertId'
   parseJSON o = typeMismatch "AlertId" o
 
 instance ToJSON AlertId where
-  toJSON (AlertId alertId) = toJSON alertId
+  toJSON (AlertId alertId') = toJSON alertId'
 
 data AlertStatus = AlertStatusOk
                  | AlertStatusCritical

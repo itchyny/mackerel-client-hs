@@ -78,6 +78,7 @@ test-suite spec
                       , Types.HostSpec
                       , Types.MetadataSpec
                       , Types.MonitorSpec
+                      , Types.ChannelSpec
                       , Types.AlertSpec
                       , Types.DashboardSpec
                       , Types.GraphAnnotationSpec

@@ -1,6 +1,7 @@
 module Web.Mackerel.Types (module Types) where
 
 import Web.Mackerel.Types.Alert as Types
+import Web.Mackerel.Types.Authority as Types
 import Web.Mackerel.Types.Channel as Types
 import Web.Mackerel.Types.Dashboard as Types
 import Web.Mackerel.Types.GraphAnnotation as Types

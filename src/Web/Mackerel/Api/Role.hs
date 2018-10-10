@@ -1,6 +1,10 @@
 {-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 -- | Role API.
-module Web.Mackerel.Api.Role (listRoles) where
+module Web.Mackerel.Api.Role
+  ( listRoles
+  , createRole
+  , deleteRole
+  ) where
 
 import Data.Aeson.TH (deriveJSON)
 import qualified Data.ByteString.Char8 as BS
@@ -18,3 +22,11 @@ $(deriveJSON options ''ListRolesResponse)
 listRoles :: Client -> String -> IO (Either ApiError [Role])
 listRoles client serviceName'
   = request client GET ("/api/v0/services/" <> BS.pack serviceName' <> "/roles") [] emptyBody (createHandler responseRoles)
+
+createRole :: Client -> String -> Role -> IO (Either ApiError Role)
+createRole client serviceName' role
+  = request client POST ("/api/v0/services/" <> BS.pack serviceName' <> "/roles") [] (Just role) (createHandler id)
+
+deleteRole :: Client -> String -> String -> IO (Either ApiError Role)
+deleteRole client serviceName' name
+  = request client DELETE ("/api/v0/services/" <> BS.pack serviceName' <> "/roles/" <> BS.pack name) [] emptyBody (createHandler id)

@@ -7,7 +7,7 @@ license-file:           LICENSE
 category:               Web
 stability:              Experimental
 build-type:             Simple
-cabal-version:          >=1.8
+cabal-version:          >=1.10
 synopsis:               An API client library for Mackerel
 homepage:               https://github.com/itchyny/mackerel-client-hs
 description:            This library provides bindings to Mackerel APIs.

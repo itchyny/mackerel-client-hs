@@ -4,3 +4,4 @@
 *.lock
 .stack-work/
 dist/
+Main.hs

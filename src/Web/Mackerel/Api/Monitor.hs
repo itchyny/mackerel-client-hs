@@ -10,7 +10,6 @@ module Web.Mackerel.Api.Monitor
 import Data.Aeson (Value)
 import Data.Aeson.TH (deriveJSON)
 import qualified Data.ByteString.Char8 as BS
-import Data.Semigroup ((<>))
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client

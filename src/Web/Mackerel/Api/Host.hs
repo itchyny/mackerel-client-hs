@@ -17,7 +17,6 @@ import qualified Data.ByteString.Char8 as BS
 import Data.Default (Default(..))
 import qualified Data.HashMap.Lazy as HM
 import Data.Maybe (maybeToList)
-import Data.Semigroup ((<>))
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client

@@ -7,8 +7,7 @@ import Data.Aeson (encode, decode, (.:), FromJSON, ToJSON)
 import Data.Aeson.Types (parseMaybe)
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy as LBS
-import Data.Maybe (maybe, fromMaybe)
-import Data.Semigroup ((<>))
+import Data.Maybe (fromMaybe)
 import Network.HTTP.Client
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 import Network.HTTP.Types (StdMethod, renderStdMethod, Query, statusCode)

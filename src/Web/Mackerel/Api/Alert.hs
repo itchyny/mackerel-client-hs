@@ -5,7 +5,6 @@ module Web.Mackerel.Api.Alert (listAlerts, closeAlert) where
 import Data.Aeson.TH (deriveJSON)
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.HashMap.Lazy as HM
-import Data.Semigroup ((<>))
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client

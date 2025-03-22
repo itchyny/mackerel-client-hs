@@ -4,7 +4,7 @@ module Types.GraphAnnotationSpec where
 import Control.Monad (forM_)
 import Data.Aeson (decode, encode, Value(..))
 import Data.Aeson.QQ
-import qualified Data.HashMap.Lazy as HM
+import qualified Data.Aeson.KeyMap as HM
 import Test.Hspec
 
 import Web.Mackerel.Types.GraphAnnotation

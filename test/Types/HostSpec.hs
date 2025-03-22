@@ -5,6 +5,7 @@ import Control.Monad (forM_)
 import Data.Aeson (decode, encode, Value(..))
 import Data.Aeson.QQ
 import Data.Default
+import qualified Data.Aeson.KeyMap as KM
 import qualified Data.HashMap.Lazy as HM
 import Test.Hspec
 
@@ -212,9 +213,9 @@ spec = do
       decode "{}" `shouldBe` (Nothing :: Maybe Host)
       let (Object hm) = json1
       forM_ ["id", "name", "status", "memo", "roles", "isRetired", "createdAt", "meta", "interfaces"] $ \key ->
-        decode (encode (Object (HM.delete key hm))) `shouldBe` (Nothing :: Maybe Host)
+        decode (encode (Object (KM.delete key hm))) `shouldBe` (Nothing :: Maybe Host)
       forM_ ["status", "roles", "isRetired", "createdAt", "meta", "interfaces"] $ \key ->
-        decode (encode (Object (HM.insert key "invalid" hm))) `shouldBe` (Nothing :: Maybe Host)
+        decode (encode (Object (KM.insert key "invalid" hm))) `shouldBe` (Nothing :: Maybe Host)
 
   describe "Host ToJSON" $
     it "should encode into a json" $

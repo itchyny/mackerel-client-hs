@@ -3,7 +3,7 @@ module Web.Mackerel.Types.Dashboard where
 
 import Data.Aeson
 import qualified Data.Aeson as Aeson
-import Data.Aeson.TH (deriveJSON, fieldLabelModifier)
+import Data.Aeson.TH (deriveJSON)
 import Data.Aeson.Types (typeMismatch)
 import Data.Char (toLower)
 import qualified Data.Text as Text

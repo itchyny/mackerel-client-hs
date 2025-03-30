@@ -1,7 +1,8 @@
 {-# LANGUAGE TemplateHaskell #-}
 module Web.Mackerel.Types.Invitation where
 
-import Data.Aeson.TH (deriveJSON, fieldLabelModifier)
+import Data.Aeson
+import Data.Aeson.TH (deriveJSON)
 import Data.Char (toLower)
 
 import Web.Mackerel.Internal.TH

@@ -1,16 +1,19 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings, TemplateHaskell, LambdaCase #-}
 module Web.Mackerel.Types.Host where
 
 import Control.Applicative ((<|>))
 import Data.Aeson
 import qualified Data.Aeson as Aeson
-import Data.Aeson.TH (deriveJSON, constructorTagModifier, fieldLabelModifier)
+import Data.Aeson.TH (deriveJSON)
 import Data.Aeson.Types (Parser, typeMismatch)
 import Data.Char (toLower)
 import Data.Default (Default(..))
 import qualified Data.HashMap.Lazy as HM
 import Data.Maybe (isJust)
 import qualified Data.Text as Text
+import qualified Toml as Toml
+import Toml.Schema.FromValue (FromValue(..))
+import qualified Toml.Schema.Matcher as Toml
 
 import Web.Mackerel.Internal.TH
 
@@ -104,6 +107,13 @@ instance Read HostStatus where
     where pairs' = [(HostStatusWorking, "working"), (HostStatusStandby, "standby"), (HostStatusMaintenance, "maintenance"), (HostStatusPoweroff, "poweroff")]
 
 $(deriveJSON options { constructorTagModifier = map toLower . drop 10 } ''HostStatus)
+
+instance FromValue HostStatus where
+  fromValue v = do
+    s <- fromValue v
+    case reads s of
+      [(hs, "")] -> return hs
+      _ -> Toml.failAt (Toml.valueAnn v) $ "invalid host status: " ++ s
 
 data HostInterface
   = HostInterface {

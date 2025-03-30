@@ -3,7 +3,7 @@ module Web.Mackerel.Types.Alert where
 
 import Data.Aeson
 import qualified Data.Aeson as Aeson
-import Data.Aeson.TH (deriveJSON, constructorTagModifier)
+import Data.Aeson.TH (deriveJSON)
 import Data.Aeson.Types (typeMismatch)
 import Data.Char (toUpper)
 import qualified Data.Text as Text

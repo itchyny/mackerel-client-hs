@@ -61,7 +61,7 @@ library
                       , bytestring
                       , parsec
                       , aeson
-                      , htoml
+                      , toml-parser
                       , text
                       , unordered-containers
                       , data-default

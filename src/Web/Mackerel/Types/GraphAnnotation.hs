@@ -3,7 +3,7 @@ module Web.Mackerel.Types.GraphAnnotation where
 
 import Data.Aeson
 import qualified Data.Aeson as Aeson
-import Data.Aeson.TH (deriveJSON, fieldLabelModifier)
+import Data.Aeson.TH (deriveJSON)
 import Data.Aeson.Types (typeMismatch)
 import Data.Char (toLower)
 import Data.Default (Default(..))

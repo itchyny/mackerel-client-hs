@@ -10,8 +10,6 @@ module Web.Mackerel.Config
   , pidFile
   ) where
 
-import Data.Aeson
-import Data.Aeson.Types (Value(..), Result(..), typeMismatch)
 import Data.Default (Default(..))
 import Data.List (isPrefixOf, isInfixOf)
 import Data.Maybe (fromMaybe)
@@ -20,7 +18,8 @@ import qualified Data.Text.IO as Text
 import System.Directory (getHomeDirectory)
 import System.FilePath ((</>))
 import System.Info (os)
-import Text.Toml (parseTomlDoc)
+import qualified Toml as Toml
+import Toml.Schema.FromValue (FromValue(..), parseTableFromValue, optKey)
 
 import Web.Mackerel.Client
 import Web.Mackerel.Types.Host
@@ -39,13 +38,18 @@ data Config
     configHttpProxy :: Maybe String
   } deriving (Eq, Show)
 
-instance FromJSON Config where
-  parseJSON (Object o)
-    = Config <$> o .:? "apibase" <*> o .:? "apikey" <*> o .:? "root"
-             <*> o .:? "pidfile" <*> o .:? "roles" <*> o .:? "verbose"
-             <*> o .:? "diagnostic" <*> o .:? "display_name" <*> o .:? "host_status"
-             <*> o .:? "http_proxy"
-  parseJSON o = typeMismatch "Config" o
+instance FromValue Config where
+  fromValue = parseTableFromValue $
+                Config <$> optKey "apibase"
+                       <*> optKey "apikey"
+                       <*> optKey "root"
+                       <*> optKey "pidfile"
+                       <*> optKey "roles"
+                       <*> optKey "verbose"
+                       <*> optKey "diagnostic"
+                       <*> optKey "display_name"
+                       <*> optKey "host_status"
+                       <*> optKey "http_proxy"
 
 instance Default Config where
   def = Config def def def def def def def def def def
@@ -56,10 +60,10 @@ data HostStatusConfig
     hostStatusOnStop :: Maybe HostStatus
   } deriving (Eq, Show)
 
-instance FromJSON HostStatusConfig where
-  parseJSON (Object o)
-    = HostStatusConfig <$> o .:? "on_start" <*> o .:? "on_stop"
-  parseJSON o = typeMismatch "HostStatusConfig" o
+instance FromValue HostStatusConfig where
+  fromValue = parseTableFromValue $
+                HostStatusConfig <$> optKey "on_start"
+                                 <*> optKey "on_stop"
 
 instance Default HostStatusConfig where
   def = HostStatusConfig def def
@@ -72,11 +76,9 @@ loadConfig = parseConfig <$> (Text.readFile =<< confFile)
 
 parseConfig :: Text.Text -> Either String Config
 parseConfig cnt
-  = case parseTomlDoc "" cnt of
-         Left _ -> Left "toml parse error"
-         Right res -> case fromJSON $ toJSON res of
-                           Error err -> Left err
-                           Success r -> Right r
+  = case Toml.decode cnt of
+         Toml.Failure es -> Left $ unlines es
+         Toml.Success _ res -> Right res
 
 loadClient :: IO (Either String Client)
 loadClient = fmap (\c -> def { apiKey = fromMaybe (apiKey def) $ configApiKey c,

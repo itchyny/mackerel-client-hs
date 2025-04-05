@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
 -- | Organization API.
 module Web.Mackerel.Api.Organization (getOrganization) where
 

@@ -1,12 +1,11 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes #-}
 module Types.HostSpec where
 
 import Control.Monad (forM_)
 import Data.Aeson (decode, encode, Value(..))
+import Data.Aeson.KeyMap qualified as KM
 import Data.Aeson.QQ
 import Data.Default
-import qualified Data.Aeson.KeyMap as KM
-import qualified Data.HashMap.Lazy as HM
+import Data.HashMap.Lazy qualified as HM
 import Test.Hspec
 
 import Web.Mackerel.Types.Host
@@ -206,20 +205,20 @@ spec = do
 
   describe "Host FromJSON" $ do
     it "should parse a json" $
-      forM_ [(json1, host1), (json2, host2)] $ \(json, host) ->
+      forM_ [(json1, host1), (json2, host2)] \(json, host) ->
         decode (encode json) `shouldBe` Just host
 
     it "should reject an invalid json" $ do
       decode "{}" `shouldBe` (Nothing :: Maybe Host)
       let (Object hm) = json1
-      forM_ ["id", "name", "status", "memo", "roles", "isRetired", "createdAt", "meta", "interfaces"] $ \key ->
+      forM_ ["id", "name", "status", "memo", "roles", "isRetired", "createdAt", "meta", "interfaces"] \key ->
         decode (encode (Object (KM.delete key hm))) `shouldBe` (Nothing :: Maybe Host)
-      forM_ ["status", "roles", "isRetired", "createdAt", "meta", "interfaces"] $ \key ->
+      forM_ ["status", "roles", "isRetired", "createdAt", "meta", "interfaces"] \key ->
         decode (encode (Object (KM.insert key "invalid" hm))) `shouldBe` (Nothing :: Maybe Host)
 
   describe "Host ToJSON" $
     it "should encode into a json" $
-      forM_ [(json1, host1), (json2, host2)] $ \(json, host) ->
+      forM_ [(json1, host1), (json2, host2)] \(json, host) ->
         decode (encode host) `shouldBe` Just json
 
   describe "HostStatus Show" $
@@ -306,10 +305,10 @@ spec = do
 
   describe "HostCreate FromJSON" $
     it "should parse a json" $
-      forM_ [(jsonCreate1, hostCreate1), (jsonCreate2, hostCreate2)] $ \(json, host) ->
+      forM_ [(jsonCreate1, hostCreate1), (jsonCreate2, hostCreate2)] \(json, host) ->
         decode (encode json) `shouldBe` Just host
 
   describe "HostCreate ToJSON" $
     it "should encode into a json" $
-      forM_ [(jsonCreate1, hostCreate1), (jsonCreate2, hostCreate2)] $ \(json, host) ->
+      forM_ [(jsonCreate1, hostCreate1), (jsonCreate2, hostCreate2)] \(json, host) ->
         decode (encode host) `shouldBe` Just json

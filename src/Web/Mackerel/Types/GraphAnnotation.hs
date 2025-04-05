@@ -1,4 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
 module Web.Mackerel.Types.GraphAnnotation where
 
 import Data.Aeson

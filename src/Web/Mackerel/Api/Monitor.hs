@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 -- | Monitor API.
 module Web.Mackerel.Api.Monitor
   ( listMonitors
@@ -9,7 +8,7 @@ module Web.Mackerel.Api.Monitor
 
 import Data.Aeson (Value)
 import Data.Aeson.TH (deriveJSON)
-import qualified Data.ByteString.Char8 as BS
+import Data.ByteString.Char8 qualified as BS
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client

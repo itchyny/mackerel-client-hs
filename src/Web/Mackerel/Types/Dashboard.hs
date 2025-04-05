@@ -1,4 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
 module Web.Mackerel.Types.Dashboard where
 
 import Data.Aeson

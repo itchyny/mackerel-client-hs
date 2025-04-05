@@ -18,7 +18,7 @@ import qualified Data.Text.IO as Text
 import System.Directory (getHomeDirectory)
 import System.FilePath ((</>))
 import System.Info (os)
-import qualified Toml as Toml
+import Toml qualified
 import Toml.Schema.FromValue (FromValue(..), parseTableFromValue, optKey)
 
 import Web.Mackerel.Client

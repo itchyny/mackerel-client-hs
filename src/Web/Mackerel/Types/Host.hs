@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell, LambdaCase #-}
 module Web.Mackerel.Types.Host where
 
 import Control.Applicative ((<|>))

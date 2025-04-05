@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes #-}
 module ConfigSpec where
 
 import Control.Monad (forM_)
@@ -59,5 +58,5 @@ spec = do
 
   describe "parseConfig" $
     it "should parse a configuration toml" $
-      forM_ [(toml1, config1), (toml2, config2)] $ \(toml, config) ->
+      forM_ [(toml1, config1), (toml2, config2)] \(toml, config) ->
         parseConfig toml `shouldBe` Right config

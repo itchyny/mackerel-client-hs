@@ -1,4 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
 module Web.Mackerel.Types.Channel where
 
 import Data.Aeson

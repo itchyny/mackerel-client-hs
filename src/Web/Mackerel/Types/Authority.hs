@@ -1,4 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
 module Web.Mackerel.Types.Authority where
 
 import Data.Aeson

@@ -1,10 +1,9 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes #-}
 module Types.GraphAnnotationSpec where
 
 import Control.Monad (forM_)
 import Data.Aeson (decode, encode, Value(..))
+import Data.Aeson.KeyMap qualified as HM
 import Data.Aeson.QQ
-import qualified Data.Aeson.KeyMap as HM
 import Test.Hspec
 
 import Web.Mackerel.Types.GraphAnnotation
@@ -41,7 +40,7 @@ spec = do
     it "should reject an invalid json" $ do
       decode "{}" `shouldBe` (Nothing :: Maybe GraphAnnotation)
       let (Object hm) = json
-      forM_ ["title", "description", "from", "to", "service"] $ \key ->
+      forM_ ["title", "description", "from", "to", "service"] \key ->
         decode (encode (Object (HM.delete key hm))) `shouldBe` (Nothing :: Maybe GraphAnnotation)
 
   describe "GraphAnnotation ToJSON" $

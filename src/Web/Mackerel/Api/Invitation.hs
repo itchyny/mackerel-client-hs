@@ -1,9 +1,8 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 -- | Invitation API.
 module Web.Mackerel.Api.Invitation (createInvitation, revokeInvitation) where
 
 import Data.Aeson (Value)
-import qualified Data.HashMap.Lazy as HM
+import Data.HashMap.Lazy qualified as HM
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client

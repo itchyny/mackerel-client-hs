@@ -1,10 +1,9 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes #-}
 module Types.DashboardSpec where
 
 import Control.Monad (forM_)
 import Data.Aeson (decode, encode, Value(..))
+import Data.Aeson.KeyMap qualified as HM
 import Data.Aeson.QQ
-import qualified Data.Aeson.KeyMap as HM
 import Test.Hspec
 
 import Web.Mackerel.Types.Dashboard
@@ -49,7 +48,7 @@ spec = do
     it "should reject an invalid json" $ do
       decode "{}" `shouldBe` (Nothing :: Maybe Dashboard)
       let (Object hm) = json
-      forM_ ["id", "title", "bodyMarkdown", "urlPath"] $ \key ->
+      forM_ ["id", "title", "bodyMarkdown", "urlPath"] \key ->
         decode (encode (Object (HM.delete key hm))) `shouldBe` (Nothing :: Maybe Dashboard)
 
   describe "Dashboard ToJSON" $

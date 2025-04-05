@@ -1,4 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
 module Web.Mackerel.Types.Metadata where
 
 import Data.Aeson.TH (deriveJSON)

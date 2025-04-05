@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes #-}
 module Types.MonitorSpec where
 
 import Control.Monad (forM_)
@@ -176,12 +175,12 @@ spec = do
 
   describe "Monitor FromJSON" $
     it "should parse jsons" $ do
-      forM_ monitors $ \(monitor, json) ->
+      forM_ monitors \(monitor, json) ->
         decode (encode json) `shouldBe` Just monitor
       decode (encode (map snd monitors)) `shouldBe` Just (map fst monitors)
 
   describe "Monitor ToJSON" $
     it "should encode into jsons" $ do
-      forM_ monitors $ \(monitor, json) ->
+      forM_ monitors \(monitor, json) ->
         decode (encode monitor) `shouldBe` Just json
       decode (encode (map fst monitors)) `shouldBe` Just (map snd monitors)

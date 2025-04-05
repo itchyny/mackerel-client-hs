@@ -1,10 +1,9 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 -- | Alert API.
 module Web.Mackerel.Api.Alert (listAlerts, closeAlert) where
 
 import Data.Aeson.TH (deriveJSON)
-import qualified Data.ByteString.Char8 as BS
-import qualified Data.HashMap.Lazy as HM
+import Data.ByteString.Char8 qualified as BS
+import Data.HashMap.Lazy qualified as HM
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client

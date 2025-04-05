@@ -20,6 +20,10 @@ library
   hs-source-dirs:       src
   ghc-options:          -Wall
   default-language:     Haskell2010
+  default-extensions:   LambdaCase
+                      , ImportQualifiedPost
+                      , OverloadedStrings
+                      , TemplateHaskell
   exposed-modules:      Web.Mackerel
                       , Web.Mackerel.Types
                       , Web.Mackerel.Types.Organization
@@ -52,7 +56,7 @@ library
                       , Web.Mackerel.Config
   other-modules:        Web.Mackerel.Internal.TH
                       , Web.Mackerel.Internal.Api
-  build-depends:        base >= 4.9 && < 5.0
+  build-depends:        base
                       , filepath
                       , directory
                       , http-types
@@ -73,6 +77,10 @@ test-suite spec
   type:                 exitcode-stdio-1.0
   ghc-options:          -Wall
   default-language:     Haskell2010
+  default-extensions:   BlockArguments
+                      , ImportQualifiedPost
+                      , OverloadedStrings
+                      , QuasiQuotes
   other-modules:        Types.OrganizationSpec
                       , Types.UserSpec
                       , Types.InvitationSpec
@@ -86,7 +94,7 @@ test-suite spec
                       , Types.DashboardSpec
                       , Types.GraphAnnotationSpec
                       , ConfigSpec
-  build-depends:        base >= 4.9 && < 5.0
+  build-depends:        base
                       , mackerel-client
                       , aeson
                       , aeson-qq

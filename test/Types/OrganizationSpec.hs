@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes #-}
 module Types.OrganizationSpec where
 
 import Data.Aeson (decode, encode)

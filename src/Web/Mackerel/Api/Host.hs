@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 -- | Host API.
 module Web.Mackerel.Api.Host
   ( createHost
@@ -13,9 +12,9 @@ module Web.Mackerel.Api.Host
   ) where
 
 import Data.Aeson.TH (deriveJSON)
-import qualified Data.ByteString.Char8 as BS
+import Data.ByteString.Char8 qualified as BS
 import Data.Default (Default(..))
-import qualified Data.HashMap.Lazy as HM
+import Data.HashMap.Lazy qualified as HM
 import Data.Maybe (maybeToList)
 import Network.HTTP.Types (StdMethod(..))
 

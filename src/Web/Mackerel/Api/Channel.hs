@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 -- | Channel API.
 module Web.Mackerel.Api.Channel (listChannels) where
 

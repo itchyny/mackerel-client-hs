@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 -- | Role API.
 module Web.Mackerel.Api.Role
   ( listRoles
@@ -7,7 +6,7 @@ module Web.Mackerel.Api.Role
   ) where
 
 import Data.Aeson.TH (deriveJSON)
-import qualified Data.ByteString.Char8 as BS
+import Data.ByteString.Char8 qualified as BS
 import Network.HTTP.Types (StdMethod(..))
 
 import Web.Mackerel.Client

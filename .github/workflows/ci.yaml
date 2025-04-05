@@ -3,16 +3,18 @@ name: CI
 on:
   push:
     branches:
-    - master
+      - main
   pull_request:
 
-jobs:
+permissions:
+  contents: read
 
+jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Test
-      run: stack test
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Test
+        run: stack test

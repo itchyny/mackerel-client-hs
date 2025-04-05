@@ -1,7 +1,7 @@
 name:                   mackerel-client
 version:                0.3.0
 author:                 itchyny
-maintainer:             itchyny <itchyny@hatena.ne.jp>
+maintainer:             itchyny <itchyny@cybozu.co.jp>
 license:                MIT
 license-file:           LICENSE
 category:               Web
